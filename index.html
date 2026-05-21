@@ -288,6 +288,80 @@ body {
   color: var(--fg3); font-size: .7rem; letter-spacing: 1px;
 }
 
+/* Auth Modal */
+.auth-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,.7);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.auth-overlay.open { display: flex; }
+.auth-modal {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 32px 28px; max-width: 400px;
+  width: 100%; position: relative;
+}
+.auth-modal h2 {
+  font-family: 'Cormorant Garamond', serif; color: var(--gold);
+  font-size: 1.4rem; text-align: center; margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+.auth-modal .sub {
+  text-align: center; color: var(--fg3); font-size: .75rem;
+  margin-bottom: 20px; letter-spacing: 1px;
+}
+.auth-modal .close {
+  position: absolute; top: 12px; right: 16px;
+  background: none; border: none; color: var(--fg3);
+  font-size: 1.1rem; cursor: pointer;
+}
+.auth-modal .close:hover { color: var(--fg); }
+.auth-modal .field { margin-bottom: 14px; }
+.auth-modal .field label {
+  display: block; font-size: .75rem; color: var(--fg3);
+  margin-bottom: 4px; letter-spacing: .5px;
+}
+.auth-modal .field input {
+  width: 100%; padding: 10px 12px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 4px;
+  color: var(--fg); font-size: .85rem; outline: none; font-family: inherit;
+}
+.auth-modal .field input:focus { border-color: var(--gold); }
+.auth-modal .btn-primary {
+  width: 100%; padding: 10px; background: var(--gold);
+  border: none; border-radius: 4px; color: #0a0a0a;
+  font-size: .8rem; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; cursor: pointer; font-family: inherit;
+}
+.auth-modal .btn-primary:hover { opacity: .85; }
+.auth-modal .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+.auth-modal .toggle {
+  text-align: center; margin-top: 14px; font-size: .8rem; color: var(--fg3);
+}
+.auth-modal .toggle a { color: var(--gold); cursor: pointer; }
+.auth-modal .toggle a:hover { text-decoration: underline; }
+.auth-modal .error {
+  color: #cc4444; font-size: .78rem; text-align: center;
+  margin-bottom: 12px; min-height: 1.2em;
+}
+.auth-modal .success {
+  color: #6aaa3a; font-size: .78rem; text-align: center;
+  margin-bottom: 12px;
+}
+.auth-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--fg2); padding: 6px 12px; font-size: .75rem;
+  cursor: pointer; border-radius: 4px; font-family: inherit;
+}
+.auth-badge:hover { border-color: var(--gold); color: var(--gold); }
+.auth-badge .avatar {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gold); color: #0a0a0a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 600;
+}
+
 /* Print */
 @media print {
   .sidebar, .toolbar, .newsletter, .footer, .votd, .reading-plan,
@@ -316,6 +390,7 @@ body {
   .verse-card .actions { opacity: 1; }
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
@@ -337,6 +412,34 @@ body {
   <span class="spacer"></span>
   <button id="btnRandom" title="Versiculo aleatorio">Azar</button>
   <button id="btnBookmarks" title="Mis marcadores">Fav <span id="bmCount" style="font-size:.65rem;color:var(--gold3)">0</span></button>
+  <span class="spacer"></span>
+  <button id="btnAuth" class="auth-badge">Ingresar</button>
+</div>
+
+<!-- Auth Modal -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal">
+    <button class="close" id="authClose">&times;</button>
+    <h2 id="authTitle">Iniciar Sesion</h2>
+    <div class="sub" id="authSub">Accede a tus marcadores y notas en la nube</div>
+    <div class="error" id="authError"></div>
+    <div class="success" id="authSuccess"></div>
+    <form id="authForm">
+      <div class="field" id="emailField">
+        <label>Correo electronico</label>
+        <input type="email" id="authEmail" placeholder="tu@correo.com" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Contrasena</label>
+        <input type="password" id="authPassword" placeholder="Min. 6 caracteres" required minlength="6" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-primary" id="authBtn">Ingresar</button>
+    </form>
+    <div class="toggle">
+      <span id="authToggleText">No tienes cuenta?</span>
+      <a id="authToggleLink">Crear cuenta</a>
+    </div>
+  </div>
 </div>
 
 <!-- Sidebar overlay -->
@@ -373,6 +476,183 @@ body {
 <div class="footer">La Llama Interior &bull; Una filosofia de conciencia plena</div>
 
 <script>
+// ======================== SUPABASE AUTH ========================
+let supabase = null;
+let currentUser = null;
+
+async function initSupabase() {
+  try {
+    const res = await fetch('/api/auth-config');
+    if (!res.ok) return;
+    const { url, key } = await res.json();
+    if (!url || !key) return;
+    supabase = window.supabase.createClient(url, key);
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      currentUser = session.user;
+      updateAuthUI();
+      await syncFromCloud();
+    }
+    supabase.auth.onAuthStateChange((event, session) => {
+      currentUser = session?.user || null;
+      updateAuthUI();
+      if (event === 'SIGNED_IN') syncFromCloud();
+    });
+  } catch (e) {
+    console.log('Supabase no disponible, modo offline');
+  }
+}
+
+function updateAuthUI() {
+  const btn = document.getElementById('btnAuth');
+  if (!btn) return;
+  if (currentUser) {
+    const initial = (currentUser.email || 'U')[0].toUpperCase();
+    btn.innerHTML = `<span class="avatar">${initial}</span><span>${currentUser.email?.split('@')[0] || 'User'}</span>`;
+    btn.title = 'Cerrar sesion';
+    btn.onclick = () => {
+      if (confirm('Cerrar sesion?')) {
+        supabase?.auth.signOut();
+        currentUser = null;
+        updateAuthUI();
+      }
+    };
+  } else {
+    btn.innerHTML = 'Ingresar';
+    btn.title = 'Iniciar sesion';
+    btn.onclick = () => openAuth();
+  }
+}
+
+// Auth modal
+let authMode = 'login';
+function openAuth(mode) {
+  authMode = mode || 'login';
+  const overlay = document.getElementById('authOverlay');
+  overlay.classList.add('open');
+  document.getElementById('authTitle').textContent = authMode === 'login' ? 'Iniciar Sesion' : 'Crear Cuenta';
+  document.getElementById('authSub').textContent = authMode === 'login' ? 'Accede a tus marcadores y notas en la nube' : 'Crea tu cuenta y sincroniza tus datos';
+  document.getElementById('authBtn').textContent = authMode === 'login' ? 'Ingresar' : 'Crear Cuenta';
+  document.getElementById('authToggleText').textContent = authMode === 'login' ? 'No tienes cuenta?' : 'Ya tienes cuenta?';
+  document.getElementById('authToggleLink').textContent = authMode === 'login' ? 'Crear cuenta' : 'Iniciar sesion';
+  document.getElementById('authError').textContent = '';
+  document.getElementById('authSuccess').textContent = '';
+  // Show email field for both modes
+  document.getElementById('emailField').style.display = 'block';
+}
+
+function closeAuth() {
+  document.getElementById('authOverlay').classList.remove('open');
+}
+
+function showAuthError(msg) {
+  document.getElementById('authError').textContent = msg;
+}
+function showAuthSuccess(msg) {
+  document.getElementById('authSuccess').textContent = msg;
+}
+
+async function handleAuthSubmit(email, password) {
+  if (!supabase) { showAuthError('Servicio no disponible'); return; }
+  const btn = document.getElementById('authBtn');
+  btn.disabled = true;
+  btn.textContent = 'Procesando...';
+  showAuthError('');
+  showAuthSuccess('');
+
+  try {
+    if (authMode === 'login') {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      showAuthSuccess('Sesion iniciada!');
+      setTimeout(closeAuth, 800);
+    } else {
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) throw error;
+      showAuthSuccess('Cuenta creada! Revisa tu correo para verificar.');
+    }
+  } catch (e) {
+    showAuthError(e.message || 'Error de autenticacion');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = authMode === 'login' ? 'Ingresar' : 'Crear Cuenta';
+  }
+}
+
+// ======================== CLOUD SYNC ========================
+async function syncToCloud() {
+  if (!supabase || !currentUser) return;
+  try {
+    // Sync bookmarks
+    const { data: existing } = await supabase.from('bookmarks').select('verse_id');
+    const existingIds = existing?.map(b => b.verse_id) || [];
+    const toAdd = S.bookmarks.filter(id => !existingIds.includes(id));
+    for (const id of toAdd) {
+      await supabase.from('bookmarks').insert({ user_id: currentUser.id, verse_id: id });
+    }
+    // Remove bookmarks that were deleted locally
+    for (const b of (existing || [])) {
+      if (!S.bookmarks.includes(b.verse_id)) {
+        await supabase.from('bookmarks').delete().eq('verse_id', b.verse_id).eq('user_id', currentUser.id);
+      }
+    }
+    // Sync notes
+    for (const [verseId, content] of Object.entries(S.notes)) {
+      await supabase.from('notes').upsert(
+        { user_id: currentUser.id, verse_id: verseId, content, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id,verse_id' }
+      );
+    }
+    // Sync reading progress
+    const { data: existingRead } = await supabase.from('reading_progress').select('verse_id');
+    const existingReadIds = existingRead?.map(r => r.verse_id) || [];
+    for (const id of S.reading.done) {
+      if (!existingReadIds.includes(id)) {
+        await supabase.from('reading_progress').insert({ user_id: currentUser.id, verse_id: id });
+      }
+    }
+    // Sync reading days
+    if (S.reading.day > 0) {
+      await supabase.from('reading_days').upsert(
+        { user_id: currentUser.id, day_number: S.reading.day, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id,day_number' }
+      );
+    }
+  } catch (e) {
+    console.log('Sync error:', e);
+  }
+}
+
+async function syncFromCloud() {
+  if (!supabase || !currentUser) return;
+  try {
+    // Load bookmarks
+    const { data: bm } = await supabase.from('bookmarks').select('verse_id');
+    if (bm) S.bookmarks = [...new Set([...S.bookmarks, ...bm.map(b => b.verse_id)])];
+
+    // Load notes
+    const { data: nt } = await supabase.from('notes').select('verse_id, content');
+    if (nt) nt.forEach(n => { S.notes[n.verse_id] = n.content; });
+
+    // Load reading progress
+    const { data: rd } = await supabase.from('reading_progress').select('verse_id');
+    if (rd) {
+      const cloudDone = rd.map(r => r.verse_id);
+      S.reading.done = [...new Set([...S.reading.done, ...cloudDone])];
+    }
+
+    // Load reading days
+    const { data: days } = await supabase.from('reading_days').select('day_number').order('day_number', { ascending: false }).limit(1);
+    if (days?.length) S.reading.day = Math.max(S.reading.day, days[0].day_number);
+
+    save();
+    render();
+    renderTOC();
+  } catch (e) {
+    console.log('Cloud sync error:', e);
+  }
+}
+
 // ======================== DATA ========================
 const DATA = {
   books: [
@@ -490,6 +770,7 @@ function save() {
   localStorage.setItem('llama-light', S.light ? '1' : '0');
   localStorage.setItem('llama-font', S.fontSize);
   updateBmCount();
+  if (currentUser) setTimeout(syncToCloud, 100);
 }
 
 // ======================== RENDER ========================
@@ -875,7 +1156,7 @@ function init() {
 
   // Keyboard
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeSidebar();
+    if (e.key === 'Escape') { closeSidebar(); closeAuth(); }
     if (e.ctrlKey && e.key === 'k') { e.preventDefault(); id('searchInput').focus(); }
   });
 }
@@ -962,6 +1243,25 @@ id('subscribeForm').onsubmit = async (e) => {
     btn.textContent = 'Suscribirse';
   }
 };
+
+// Auth modal events
+document.getElementById('authClose').onclick = closeAuth;
+document.getElementById('authOverlay').onclick = (e) => { if (e.target === e.currentTarget) closeAuth(); };
+document.getElementById('authToggleLink').onclick = () => {
+  authMode = authMode === 'login' ? 'signup' : 'login';
+  openAuth(authMode);
+};
+
+document.getElementById('authForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  if (!email || !password) { showAuthError('Completa todos los campos'); return; }
+  await handleAuthSubmit(email, password);
+};
+
+// Init Supabase
+initSupabase();
 
 // PWA register
 if ('serviceWorker' in navigator) {
