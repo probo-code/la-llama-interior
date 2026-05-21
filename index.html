@@ -3,747 +3,967 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="La Llama Interior â€” Sistema de creencias basado en el cigarro como herramienta de conciencia plena. Doctrina, historia, preceptos, ritos y conclusiÃ³n.">
+<meta name="description" content="La Llama Interior â€” Biblia digital del sistema de creencias basado en el cigarro como herramienta de conciencia plena. Busqueda, marcadores, audio y mas.">
 <meta name="theme-color" content="#0a0a0a">
-<title>La Llama Interior â€” Biblia Digital del Cigarro</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<title>La Llama Interior â€” Biblia Digital</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #0a0a0a;
-    color: #d4c9a8;
-    min-height: 100vh;
-  }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #0a0a0a; }
-  ::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+:root {
+  --bg: #0a0a0a; --bg2: #0f0d08; --bg3: #1a1408;
+  --fg: #d4c9a8; --fg2: #c4b998; --fg3: #8a7a5a;
+  --gold: #c9a84c; --gold2: #dab85c; --gold3: #6a5a3a;
+  --border: #1a1408; --border2: #2a2010;
+  --font-size: 1rem;
+  --sidebar-w: 280px;
+}
+.light {
+  --bg: #f5f0e8; --bg2: #ede6d8; --bg3: #e0d6c4;
+  --fg: #2a2010; --fg2: #3a3020; --fg3: #6a5a3a;
+  --gold: #8a7030; --gold2: #9a8050; --gold3: #c9a84c;
+  --border: #d4c9a8; --border2: #c4b998;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: var(--font-size);
+  transition: background .3s, color .3s;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
-  .header {
-    background: linear-gradient(180deg, #1a1408 0%, #0f0c06 100%);
-    border-bottom: 1px solid #2a2010;
-    padding: 40px 20px 30px;
-    text-align: center;
-    position: relative;
-  }
-  .header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #8a7030, transparent);
-  }
-  .header h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3.2rem;
-    font-weight: 600;
-    letter-spacing: 8px;
-    color: #c9a84c;
-    text-shadow: 0 0 40px rgba(201,168,76,0.15);
-  }
-  .header .subtitle {
-    font-size: 0.9rem;
-    color: #6a5a3a;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin-top: 8px;
-  }
-  .header .verse-ref {
-    margin-top: 14px;
-    font-style: italic;
-    color: #8a7a5a;
-    font-size: 0.85rem;
-    border-top: 1px solid #1a1408;
-    padding-top: 14px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* Header */
+.header {
+  background: linear-gradient(180deg, var(--bg3), var(--bg));
+  border-bottom: 1px solid var(--border);
+  padding: 24px 20px 18px;
+  text-align: center;
+  position: relative;
+}
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: 6px;
+  color: var(--gold);
+}
+.header .sub {
+  font-size: .75rem;
+  color: var(--fg3);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
 
-  .nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2px;
-    background: #0d0b07;
-    border-bottom: 1px solid #1a1408;
-    padding: 0 10px;
-  }
-  .nav button {
-    font-family: 'Inter', sans-serif;
-    background: transparent;
-    border: none;
-    color: #5a4a2a;
-    padding: 14px 22px;
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-bottom: 2px solid transparent;
-  }
-  .nav button:hover { color: #a08850; }
-  .nav button.active { color: #c9a84c; border-bottom-color: #c9a84c; }
-  .nav button .badge {
-    display: inline-block;
-    background: #1a1408;
-    color: #6a5a3a;
-    font-size: 0.65rem;
-    padding: 1px 7px;
-    border-radius: 8px;
-    margin-left: 6px;
-  }
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.toolbar button, .toolbar label {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg2);
+  padding: 6px 12px;
+  font-size: .75rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all .2s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.toolbar button:hover, .toolbar label:hover { border-color: var(--gold); color: var(--gold); }
+.toolbar button.active { border-color: var(--gold); color: var(--gold); }
+.toolbar .spacer { width: 1px; height: 24px; background: var(--border); }
+.toolbar input[type=range] { width: 60px; accent-color: var(--gold); vertical-align: middle; }
 
-  .main {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* Sidebar */
+.sidebar-overlay {
+  position: fixed; inset: 0; z-index: 98;
+  background: rgba(0,0,0,.5); display: none;
+}
+.sidebar {
+  position: fixed; top: 0; left: -300px; bottom: 0; z-index: 99;
+  width: var(--sidebar-w); background: var(--bg2);
+  border-right: 1px solid var(--border);
+  transition: left .3s ease;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.sidebar.open { left: 0; }
+.sidebar-overlay.open { display: block; }
+.sidebar-header {
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sidebar-header h3 { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
+.sidebar-header button { background: none; border: none; color: var(--fg3); font-size: 1.2rem; cursor: pointer; }
+.sidebar-search {
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+}
+.sidebar-search input {
+  width: 100%; padding: 8px 10px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+  color: var(--fg); font-size: .8rem; outline: none;
+}
+.sidebar-search input:focus { border-color: var(--gold); }
+.sidebar-search input::placeholder { color: var(--fg3); }
+.sidebar-body { flex: 1; overflow-y: auto; padding: 8px 0; }
+.toc-group { border-bottom: 1px solid var(--border); }
+.toc-group-header {
+  padding: 10px 16px; cursor: pointer; display: flex;
+  justify-content: space-between; align-items: center;
+  color: var(--fg2); font-size: .85rem; font-weight: 500;
+  transition: background .2s;
+}
+.toc-group-header:hover { background: var(--bg); }
+.toc-group-header .arrow { transition: transform .3s; font-size: .7rem; color: var(--fg3); }
+.toc-group.open .toc-group-header .arrow { transform: rotate(90deg); }
+.toc-items { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.toc-group.open .toc-items { max-height: 2000px; }
+.toc-item {
+  padding: 6px 16px 6px 28px; cursor: pointer; font-size: .78rem;
+  color: var(--fg3); transition: all .2s; display: flex; align-items: center; gap: 6px;
+}
+.toc-item:hover { color: var(--gold); background: var(--bg); }
+.toc-item .ref { color: var(--gold3); font-size: .7rem; }
+.toc-item .bm { margin-left: auto; font-size: .6rem; color: var(--gold); opacity: 0; }
+.toc-item:hover .bm { opacity: .5; }
+.toc-item .bm.on { opacity: 1; }
 
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    color: #c9a84c;
-    margin-bottom: 8px;
-    letter-spacing: 2px;
-  }
-  .section-subtitle {
-    color: #5a4a2a;
-    font-size: 0.8rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #1a1408;
-    padding-bottom: 12px;
-  }
-  .verse {
-    margin-bottom: 24px;
-    padding-left: 20px;
-    border-left: 2px solid #1a1408;
-  }
-  .verse .ref {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.85rem;
-    color: #6a5a3a;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-  .verse .ref span { color: #8a7a5a; }
-  .verse .text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #c4b998;
-  }
-  .verse .text i { color: #9a8858; }
-  .pillar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    margin: 24px 0;
-  }
-  .pillar-card {
-    background: #0f0d08;
-    border: 1px solid #1a1408;
-    padding: 20px;
-    border-radius: 4px;
-    transition: border-color 0.3s;
-  }
-  .pillar-card:hover { border-color: #3a3020; }
-  .pillar-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    color: #c9a84c;
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-  }
-  .pillar-card p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #8a7a5a;
-  }
+/* Main */
+.main-wrap {
+  max-width: 820px; margin: 0 auto; padding: 24px 20px 60px;
+  transition: margin-left .3s;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; color: var(--gold);
+  margin-bottom: 4px; letter-spacing: 1px;
+}
+.section-sub {
+  color: var(--fg3); font-size: .75rem; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border); padding-bottom: 10px;
+}
 
-  .timeline { position: relative; padding-left: 30px; }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 8px; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(180deg, #c9a84c33, #1a1408, transparent);
-  }
-  .timeline-item {
-    position: relative;
-    margin-bottom: 28px;
-    padding-left: 20px;
-  }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -26px; top: 6px;
-    width: 8px; height: 8px;
-    background: #c9a84c;
-    border-radius: 50%;
-    opacity: 0.6;
-  }
-  .timeline-item .year {
-    font-size: 0.75rem;
-    color: #6a5a3a;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .timeline-item h4 {
-    font-family: 'Cormorant Garamond', serif;
-    color: #c4b998;
-    font-size: 1rem;
-    margin: 4px 0;
-  }
-  .timeline-item p {
-    font-size: 0.9rem;
-    color: #7a6a4a;
-    line-height: 1.6;
-  }
+/* Verse card */
+.verse-card {
+  margin-bottom: 16px; padding: 14px 16px 14px 20px;
+  border-left: 2px solid var(--border); border-radius: 0 4px 4px 0;
+  transition: all .2s; position: relative;
+}
+.verse-card:hover { border-left-color: var(--gold3); background: var(--bg2); }
+.verse-card .ref {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .8rem; color: var(--gold3);
+  letter-spacing: .5px; margin-bottom: 2px;
+  cursor: pointer; display: inline-block;
+}
+.verse-card .ref:hover { color: var(--gold); }
+.verse-card .text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; line-height: 1.7; color: var(--fg2);
+}
+.verse-card .text .cross-ref {
+  color: var(--gold); cursor: pointer; border-bottom: 1px dotted var(--gold3);
+  font-size: .85rem;
+}
+.verse-card .text .cross-ref:hover { color: var(--gold2); }
+.verse-card .actions {
+  display: flex; gap: 4px; margin-top: 8px; opacity: 0;
+  transition: opacity .2s;
+}
+.verse-card:hover .actions { opacity: 1; }
+.verse-card .actions button {
+  background: none; border: 1px solid var(--border); color: var(--fg3);
+  padding: 3px 8px; font-size: .65rem; cursor: pointer; border-radius: 3px;
+  transition: all .2s; font-family: inherit;
+}
+.verse-card .actions button:hover { border-color: var(--gold); color: var(--gold); }
+.verse-card .actions button.on { border-color: var(--gold); color: var(--gold); }
+.verse-card .note-box {
+  max-height: 0; overflow: hidden; transition: max-height .3s, margin .3s;
+}
+.verse-card .note-box.open { max-height: 120px; margin-top: 8px; }
+.verse-card .note-box textarea {
+  width: 100%; padding: 8px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 4px;
+  color: var(--fg); font-size: .78rem; resize: vertical;
+  min-height: 50px; font-family: inherit; outline: none;
+}
+.verse-card .note-box textarea:focus { border-color: var(--gold); }
 
-  .precept {
-    background: #0f0d08;
-    border: 1px solid #1a1408;
-    border-radius: 4px;
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-  .precept-header {
-    padding: 14px 18px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.3s;
-  }
-  .precept-header:hover { background: #141008; }
-  .precept-header .num {
-    font-family: 'Cormorant Garamond', serif;
-    color: #c9a84c;
-    font-size: 0.85rem;
-    margin-right: 12px;
-  }
-  .precept-header .precept-title {
-    flex: 1;
-    font-size: 0.95rem;
-    color: #c4b998;
-  }
-  .precept-header .arrow {
-    color: #3a3020;
-    transition: transform 0.3s;
-  }
-  .precept.open .precept-header .arrow { transform: rotate(180deg); }
-  .precept-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s ease;
-  }
-  .precept.open .precept-body {
-    max-height: 500px;
-    padding: 0 18px 16px;
-  }
-  .precept-body p {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: #8a7a5a;
-  }
-  .precept-body .quote {
-    font-style: italic;
-    color: #6a5a3a;
-    border-left: 2px solid #2a2010;
-    padding-left: 14px;
-    margin-top: 10px;
-    font-size: 0.85rem;
-  }
+/* Verse of the day */
+.votd {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 24px; margin-bottom: 28px; text-align: center;
+}
+.votd-label {
+  font-size: .65rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--fg3); margin-bottom: 8px;
+}
+.votd .ref { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: .9rem; }
+.votd .text { color: var(--fg2); font-style: italic; font-size: 1.1rem; line-height: 1.7; margin-top: 6px; }
 
-  .rite {
-    background: #0f0d08;
-    border: 1px solid #1a1408;
-    padding: 20px;
-    border-radius: 4px;
-    margin-bottom: 16px;
-  }
-  .rite h4 {
-    font-family: 'Cormorant Garamond', serif;
-    color: #c9a84c;
-    font-size: 1rem;
-    margin-bottom: 6px;
-  }
-  .rite p {
-    font-size: 0.9rem;
-    color: #8a7a5a;
-    line-height: 1.6;
-  }
+/* Reading plan */
+.reading-plan {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; margin-bottom: 28px;
+}
+.reading-plan h4 { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1rem; margin-bottom: 6px; }
+.reading-plan p { color: var(--fg3); font-size: .85rem; line-height: 1.6; }
+.reading-plan .progress {
+  margin-top: 10px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;
+}
+.reading-plan .progress-bar { height: 100%; background: var(--gold); width: 0%; transition: width .5s; }
 
-  .newsletter {
-    max-width: 520px;
-    margin: 0 auto 40px;
-    text-align: center;
-    padding: 32px 24px;
-    background: #0f0d08;
-    border: 1px solid #1a1408;
-    border-radius: 6px;
-  }
-  .newsletter h3 {
-    font-family: 'Cormorant Garamond', serif;
-    color: #c9a84c;
-    font-size: 1.3rem;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-  }
-  .newsletter p {
-    color: #7a6a4a;
-    font-size: 0.85rem;
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
-  .newsletter-form {
-    display: flex;
-    gap: 8px;
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .newsletter-form input {
-    flex: 1;
-    padding: 10px 14px;
-    background: #0a0a0a;
-    border: 1px solid #2a2010;
-    border-radius: 4px;
-    color: #d4c9a8;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-  .newsletter-form input::placeholder { color: #4a3a1a; }
-  .newsletter-form input:focus { border-color: #5a4a2a; }
-  .newsletter-form button {
-    padding: 10px 20px;
-    background: #c9a84c;
-    border: none;
-    border-radius: 4px;
-    color: #0a0a0a;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.3s, opacity 0.3s;
-    white-space: nowrap;
-  }
-  .newsletter-form button:hover { background: #dab85c; }
-  .newsletter-form button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .newsletter .msg {
-    margin-top: 12px;
-    font-size: 0.8rem;
-    min-height: 1.2em;
-    transition: color 0.3s;
-  }
-  .newsletter .msg.success { color: #6aaa3a; }
-  .newsletter .msg.error { color: #aa3a3a; }
+/* Search results */
+.search-results { margin-bottom: 20px; }
+.search-results .count { color: var(--fg3); font-size: .8rem; margin-bottom: 12px; }
+.search-highlight { background: rgba(201,168,76,.25); padding: 0 2px; border-radius: 2px; }
 
-  .footer {
-    text-align: center;
-    padding: 30px 20px;
-    border-top: 1px solid #1a1408;
-    color: #3a3020;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-  }
+/* Stats */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px; margin: 16px 0;
+}
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 4px;
+  padding: 16px; text-align: center;
+}
+.stat-card .num { font-size: 1.6rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+.stat-card .label { font-size: .7rem; color: var(--fg3); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
 
-  .highlight { color: #c9a84c; }
+/* Newsletter */
+.newsletter {
+  max-width: 480px; margin: 0 auto 40px; text-align: center;
+  padding: 28px 20px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 6px;
+}
+.newsletter h3 { font-family: 'Cormorant Garamond', serif; color: var(--gold); font-size: 1.2rem; margin-bottom: 6px; }
+.newsletter p { color: var(--fg3); font-size: .8rem; margin-bottom: 16px; line-height: 1.5; }
+.newsletter-form { display: flex; gap: 8px; max-width: 380px; margin: 0 auto; }
+.newsletter-form input {
+  flex: 1; padding: 9px 12px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 4px; color: var(--fg);
+  font-size: .8rem; outline: none; font-family: inherit;
+}
+.newsletter-form input:focus { border-color: var(--gold); }
+.newsletter-form input::placeholder { color: var(--fg3); }
+.newsletter-form button {
+  padding: 9px 18px; background: var(--gold); border: none; border-radius: 4px;
+  color: #0a0a0a; font-size: .75rem; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; cursor: pointer; transition: opacity .3s;
+  font-family: inherit; white-space: nowrap;
+}
+.newsletter-form button:hover { opacity: .85; }
+.newsletter-form button:disabled { opacity: .4; cursor: not-allowed; }
+.newsletter .msg { margin-top: 10px; font-size: .78rem; min-height: 1.2em; }
+.newsletter .msg.success { color: #6aaa3a; }
+.newsletter .msg.error { color: #cc4444; }
 
-  @media (max-width: 600px) {
-    .header h1 { font-size: 2rem; letter-spacing: 4px; }
-    .nav button { padding: 10px 14px; font-size: 0.7rem; letter-spacing: 1px; }
-    .main { padding: 24px 16px 60px; }
-    .section-title { font-size: 1.5rem; }
-  }
+/* Footer */
+.footer {
+  text-align: center; padding: 24px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--fg3); font-size: .7rem; letter-spacing: 1px;
+}
+
+/* Print */
+@media print {
+  .sidebar, .toolbar, .newsletter, .footer, .votd, .reading-plan,
+  .verse-card .actions, .sidebar-overlay { display: none !important; }
+  .header { padding: 10px; border: none; }
+  .header h1 { font-size: 1.6rem; }
+  .main-wrap { padding: 10px; max-width: 100%; }
+  .verse-card { break-inside: avoid; border-left-color: #ccc; }
+  .section-title { font-size: 1.3rem; }
+  a { color: inherit !important; text-decoration: none !important; }
+}
+
+/* Light mode overrides */
+.light .newsletter-form button { color: #fff; }
+.light .verse-card .text .cross-ref { border-bottom-color: var(--gold3); }
+.light .header { background: linear-gradient(180deg, var(--bg3), var(--bg)); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .header h1 { font-size: 1.5rem; letter-spacing: 3px; }
+  .sidebar { width: 100% !important; left: -100%; }
+  .toolbar { gap: 4px; }
+  .toolbar button { padding: 5px 8px; font-size: .65rem; }
+  .main-wrap { padding: 16px 12px 40px; }
+  .section-title { font-size: 1.3rem; }
+  .verse-card .actions { opacity: 1; }
+}
 </style>
 </head>
 <body>
 
+<!-- Header -->
 <div class="header">
   <h1>LA LLAMA INTERIOR</h1>
-  <div class="subtitle">El Testimonio del Humo &bull; EdiciÃ³n del Buscador</div>
-  <div class="verse-ref">
-    "El humo se eleva, y en su danza encuentra el cielo." â€” <i>Testimonio del Encendedor, 3:12</i>
+  <div class="sub">El Testimonio del Humo &bull; Biblia Digital</div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar" id="toolbar">
+  <button id="btnMenu" title="Tabla de contenidos">â˜°</button>
+  <button id="btnVotd" title="Versiculo del dia">ðŸŽ¯</button>
+  <button id="btnStats" title="Estadisticas">ðŸ“Š</button>
+  <button id="btnPlan" title="Plan de lectura">ðŸ“–</button>
+  <button id="btnLight" title="Modo claro/oscuro">â˜€ï¸</button>
+  <span class="spacer"></span>
+  <label title="Tamano de letra">Aâ» <input type="range" id="fontSlider" min="12" max="24" value="16"> Aâº</label>
+  <span class="spacer"></span>
+  <button id="btnRandom" title="Versiculo aleatorio">ðŸŽ²</button>
+  <button id="btnBookmarks" title="Mis marcadores">ðŸ”– <span id="bmCount" style="font-size:.65rem;color:var(--gold3)">0</span></button>
+</div>
+
+<!-- Sidebar overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Contenido</h3>
+    <button id="closeSidebar">âœ•</button>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="searchInput" placeholder="Buscar en las escrituras..." autocomplete="off">
+  </div>
+  <div class="sidebar-body" id="tocBody"></div>
+</div>
+
+<!-- Main -->
+<div class="main-wrap" id="main">
+  <div id="contentArea"></div>
+
+  <!-- Newsletter -->
+  <div class="newsletter" id="newsletter">
+    <h3>Recibe la Llama en tu Correo</h3>
+    <p>Suscribete y recibi reflexiones, ritos y ensenanzas de La Llama Interior.</p>
+    <form class="newsletter-form" id="subscribeForm" novalidate>
+      <input type="email" id="emailInput" placeholder="tu@correo.com" required autocomplete="email">
+      <button type="submit" id="subscribeBtn">Suscribirse</button>
+    </form>
+    <div class="msg" id="subscribeMsg"></div>
   </div>
 </div>
 
-<div class="nav" id="navTabs">
-  <button class="active" data-tab="doctrina">Doctrina</button>
-  <button data-tab="historia">Historia</button>
-  <button data-tab="preceptos">Preceptos <span class="badge">7</span></button>
-  <button data-tab="ritos">Ritos</button>
-  <button data-tab="conclusion">ConclusiÃ³n</button>
-</div>
-
-<div class="main">
-
-  <!-- DOCTRINA -->
-  <div class="tab-content active" id="tab-doctrina">
-    <h2 class="section-title">La Doctrina de la Llama</h2>
-    <div class="section-subtitle">Fundamentos de la fe en el cigarro</div>
-
-    <div class="verse">
-      <div class="ref">Testimonio del Encendedor <span>1:1</span></div>
-      <div class="text">En el principio fue la chispa. De la nada surgiÃ³ una llama, pequeÃ±a pero eterna, y el hombre la tomÃ³ en sus manos y dijo: <i>"Esto es vida."</i></div>
-    </div>
-
-    <div class="verse">
-      <div class="ref">Testimonio del Encendedor <span>1:3</span></div>
-      <div class="text">El humo es el puente entre lo terrenal y lo divino. Cada bocanada es una oraciÃ³n que asciende, y en su efÃ­mero paso por el aire, recuerda al hombre que todo es pasajero, pero tambiÃ©n sagrado.</div>
-    </div>
-
-    <h3 style="font-family:'Cormorant Garamond',serif;color:#c9a84c;margin:36px 0 16px;font-size:1.3rem;letter-spacing:1px;">Los Cuatro Pilares</h3>
-
-    <div class="pillar-grid">
-      <div class="pillar-card">
-        <h3>I. La Chispa Original</h3>
-        <p>Todo comienza con una chispa. AsÃ­ como el fuego dio luz a la humanidad, el cigarro enciende la conciencia. Cada vez que se enciende un cigarrillo, se renueva ese pacto primordial con el conocimiento.</p>
-      </div>
-      <div class="pillar-card">
-        <h3>II. El Humo como OraciÃ³n</h3>
-        <p>El humo que asciende no se pierde; se transforma. Es la manifestaciÃ³n fÃ­sica de los pensamientos, las dudas y las esperanzas del fumador. En su danza errÃ¡tica, el humo revela la belleza de lo imperfecto.</p>
-      </div>
-      <div class="pillar-card">
-        <h3>III. La Ceniza como Recuerdo</h3>
-        <p>La ceniza no es desecho, es memoria. Cada ceniza que cae es un instante vivido, un pensamiento que encontrÃ³ su final. En la ceniza reside la sabidurÃ­a de lo que fue, invitando a soltar para seguir ardiendo.</p>
-      </div>
-      <div class="pillar-card">
-        <h3>IV. El Ritual de la Pausa</h3>
-        <p>Encender un cigarrillo es crear un espacio sagrado en el tiempo. Es el permiso para detenerse, observar y respirar. En un mundo que corre, el fumador encuentra en su ritual un momento de eternidad.</p>
-      </div>
-    </div>
-
-    <div class="verse" style="margin-top:30px;">
-      <div class="ref">Testimonio del Encendedor <span>4:9</span></div>
-      <div class="text">No temas a la brevedad de la llama, pues en su fugacidad reside su pureza. El cigarro enseÃ±a que lo valioso no es lo que perdura, sino lo que se vive con intensidad.</div>
-    </div>
-  </div>
-
-  <!-- HISTORIA -->
-  <div class="tab-content" id="tab-historia">
-    <h2 class="section-title">Historia de la Llama</h2>
-    <div class="section-subtitle">CrÃ³nica de una revelaciÃ³n</div>
-
-    <p style="color:#7a6a4a;line-height:1.8;margin-bottom:28px;font-size:0.95rem;">
-      La doctrina de <span class="highlight">La Llama Interior</span> no naciÃ³ de un profeta solitario, sino de la experiencia colectiva de quienes encontraron en el cigarro algo mÃ¡s que nicotina: encontraron un espejo. A travÃ©s de los siglos, el acto de fumar ha sido compaÃ±ero de filÃ³sofos, artistas y soÃ±adores. Esta fe recoge esas voces dispersas y las organiza en un sistema de creencias que celebra la conciencia plena, la brevedad de la existencia y la belleza de lo transitorio.
-    </p>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="year">~5000 a.C.</div>
-        <h4>Los primeros rituales</h4>
-        <p>Civilizaciones mesoamericanas utilizan el humo del tabaco en ceremonias sagradas. El humo es considerado un medio para comunicarse con los dioses, un vehÃ­culo entre mundos.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="year">1492</div>
-        <h4>El encuentro de dos mundos</h4>
-        <p>ColÃ³n recibe hojas de tabaco como ofrenda. El humo cruza el ocÃ©ano por primera vez. Nace una nueva era de encuentro espiritual a travÃ©s del cigarro.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="year">Siglo XIX</div>
-        <h4>Los filÃ³sofos del humo</h4>
-        <p>En los cafÃ©s de ParÃ­s y Viena, el cigarro se convierte en compaÃ±ero de la reflexiÃ³n. Poetas y pensadores formalizan la idea de que fumar es un acto meditativo.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="year">1922</div>
-        <h4>El Primer Testimonio</h4>
-        <p>Un anÃ³nimo fumador compila por primera vez los escritos que luego se conocerÃ­an como el <i>Testimonio del Encendedor</i>. La doctrina encuentra su texto fundacional.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="year">1964</div>
-        <h4>La Gran Prueba</h4>
-        <p>Los informes cientÃ­ficos desafÃ­an la fe. La comunidad de la llama reinterpreta la doctrina: el riesgo se convierte en un recordatorio de la fragilidad humana, y la conciencia del daÃ±o, en una llamada a la moderaciÃ³n consciente.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="year">2024</div>
-        <h4>El Renacimiento Digital</h4>
-        <p>Surgen comunidades virtuales que practican la "fumada consciente". La doctrina se expande mÃ¡s allÃ¡ del tabaco para abrazar cualquier forma de pausa ritualizada con humo, incluyendo alternativas sin nicotina.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRECEPTOS -->
-  <div class="tab-content" id="tab-preceptos">
-    <h2 class="section-title">Los Siete Preceptos</h2>
-    <div class="section-subtitle">GuÃ­a para el camino del humo</div>
-
-    <div class="precept open">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">I</span>
-        <span class="precept-title">Enciende con IntenciÃ³n</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>No enciendas un cigarrillo por costumbre, sino por ceremonia. Cada llama debe ser el inicio de un acto consciente. PregÃºntate: <i>Â¿QuÃ© deseo quemar en este humo? Â¿Una preocupaciÃ³n, un pensamiento, un instante de silencio?</i></p>
-        <div class="quote">"El fumador distraÃ­do quema tabaco; el iluminado quema sus cadenas." â€” Testimonio del Encendedor, 7:2</div>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">II</span>
-        <span class="precept-title">Respira el Ahora</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>La bocanada debe ser un ancla al presente. Siente el humo entrar, llenar tus pulmones, y al exhalar, suelta el pasado. No hay futuro en el humo, solo el instante eterno.</p>
-        <div class="quote">"Ayer es ceniza, maÃ±ana es leÃ±a. Solo el ahora es llama." â€” Proverbio de la Llama</div>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">III</span>
-        <span class="precept-title">Honra la Ceniza</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>No deseches la ceniza sin respeto. Ella es el testimonio de lo que fue. Al dejarla caer, reflexiona sobre lo que termina. La ceniza enseÃ±a desapego: nada permanece, y eso estÃ¡ bien.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">IV</span>
-        <span class="precept-title">Comparte el Humo</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>Encender un cigarrillo para otro es el gesto mÃ¡s sagrado. Es compartir un momento de pausa, una conversaciÃ³n sin prisas. El humo compartido crea lazos que las palabras no pueden expresar.</p>
-        <div class="quote">"El humo que se comparte alimenta dos almas." â€” SabidurÃ­a popular de la llama</div>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">V</span>
-        <span class="precept-title">Conoce tus LÃ­mites</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>La llama que todo lo consume se apaga antes. El cigarro enseÃ±a moderaciÃ³n. Fumar con conciencia es saber cuÃ¡ndo encender y, mÃ¡s importante aÃºn, cuÃ¡ndo apagar. El exceso niega el ritual.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">VI</span>
-        <span class="precept-title">Busca tu Propio Ritmo</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>Cada fumador tiene su danza: la forma de sostener el cigarro, la frecuencia de las bocanadas, el momento del dÃ­a. No hay una forma correcta. El ritual debe ser autÃ©ntico, no imitado. Encuentra tu propia cadencia.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">VII</span>
-        <span class="precept-title">Acepta la ExtinciÃ³n</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>Todo cigarro llega a su fin. La colilla no es un final triste, sino la culminaciÃ³n natural de un ciclo. Acepta el final sin resistencia, como aceptas tu propia naturaleza efÃ­mera. En esa aceptaciÃ³n, encuentras paz.</p>
-        <div class="quote">"No llores por la llama que se apaga; alÃ©grate de haber visto su luz." â€” Testimonio del Encendedor, 12:7</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RITOS -->
-  <div class="tab-content" id="tab-ritos">
-    <h2 class="section-title">Ritos y PrÃ¡cticas</h2>
-    <div class="section-subtitle">Ceremonias de la vida cotidiana</div>
-
-    <div class="rite">
-      <h4>El Rito del Amanecer</h4>
-      <p>El primer cigarrillo del dÃ­a debe encenderse mirando al sol naciente. Es un acto de gratitud por un nuevo ciclo. La primera bocanada es silencio, la segunda es conciencia, la tercera es propÃ³sito.</p>
-    </div>
-
-    <div class="rite">
-      <h4>La Pausa del MediodÃ­a</h4>
-      <p>A mitad del dÃ­a, cuando el ruido del mundo es mÃ¡s fuerte, el cigarro se convierte en un escudo. SiÃ©ntate solo, sin telÃ©fono ni prisa. Deja que el humo te separe del caos. Cinco minutos de silencio fumando valen mÃ¡s que una hora de actividad vacÃ­a.</p>
-    </div>
-
-    <div class="rite">
-      <h4>La ConversaciÃ³n Compartida</h4>
-      <p>Encender un cigarrillo con otro es crear un pacto tÃ¡cito. Las palabras fluyen diferentes cuando hay humo de por medio. Este rito sagrado de amistad exige presencia: quien fuma contigo merece tu atenciÃ³n completa.</p>
-    </div>
-
-    <div class="rite">
-      <h4>El Humo de la Despedida</h4>
-      <p>Ante una pÃ©rdida o un final, el cigarro se convierte en ofrenda. Cada bocanada es un recuerdo, cada exhalaciÃ³n es una despedida. Es la forma de decir: <i>"Estuve aquÃ­, y esto importÃ³."</i></p>
-    </div>
-
-    <div class="rite">
-      <h4>La MeditaciÃ³n del Ascua</h4>
-      <p>Observa el ascua encendida. Su luz diminuta es un sol en miniatura. ConcÃ©ntrate en ella hasta que el mundo desaparezca. El ascua te enseÃ±a que incluso la luz mÃ¡s pequeÃ±a tiene el poder de iluminar la oscuridad.</p>
-    </div>
-  </div>
-
-  <!-- CONCLUSION -->
-  <div class="tab-content" id="tab-conclusion">
-    <h2 class="section-title">ConclusiÃ³n: El Camino del Humo</h2>
-    <div class="section-subtitle">Puntos concluyentes de la doctrina</div>
-
-    <div style="background:#0f0d08;border:1px solid #1a1408;border-radius:4px;padding:24px;margin-bottom:24px;">
-      <p style="color:#a09070;line-height:1.8;font-style:italic;font-size:1rem;">
-        "El humo no miente. En su transparencia se refleja la verdad del que fuma. No hay doctrina mÃ¡s sincera que aquella que se desvanece en el aire, porque no busca perdurar, sino transformar."
-      </p>
-      <div style="text-align:right;color:#6a5a3a;font-size:0.85rem;margin-top:8px;">â€” Ãšltimo Testimonio, 1:1</div>
-    </div>
-
-    <h3 style="font-family:'Cormorant Garamond',serif;color:#c9a84c;margin:28px 0 16px;font-size:1.2rem;">Puntos Concluyentes</h3>
-
-    <div class="precept open">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">1</span>
-        <span class="precept-title">La conciencia plena es el verdadero acto de fumar</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>No importa lo que quemes, sino cÃ³mo lo quemas. Un cigarro fumado sin conciencia es humo vacÃ­o. La Llama Interior no celebra el tabaco, celebra la atenciÃ³n plena que el ritual del cigarro puede generar.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">2</span>
-        <span class="precept-title">Lo efÃ­mero no es trÃ¡gico, es liberador</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>La gran enseÃ±anza del cigarro es que todo pasa. En lugar de aferrarte, aprende a apreciar la belleza de lo momentÃ¡neo. La vida, como el cigarro, no se mide en duraciÃ³n sino en intensidad.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">3</span>
-        <span class="precept-title">El ritual es el camino, no el destino</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>Los ritos y preceptos de esta doctrina no son fines en sÃ­ mismos. Son herramientas para cultivar presencia, conexiÃ³n y reflexiÃ³n. Si un precepto no te sirve, dÃ©jalo caer como ceniza.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">4</span>
-        <span class="precept-title">Toda forma de humo es vÃ¡lida</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>Ya sea tabaco, hierbas sin nicotina o incienso, el principio es el mismo: usar el humo como vehÃ­culo de conciencia. La Llama Interior es una filosofÃ­a, no una marca. Adapta el ritual a tu cuerpo y tus valores.</p>
-      </div>
-    </div>
-
-    <div class="precept">
-      <div class="precept-header" onclick="togglePrecept(this)">
-        <span class="num">5</span>
-        <span class="precept-title">El mayor respeto es hacia uno mismo</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="precept-body">
-        <p>Esta doctrina no glorifica el daÃ±o. Fumar con conciencia implica conocer los riesgos y aceptarlos con responsabilidad. La verdadera iluminaciÃ³n no estÃ¡ en el humo, sino en la honestidad con que te enfrentas a tus elecciones.</p>
-      </div>
-    </div>
-
-    <div class="verse" style="margin-top:36px;">
-      <div class="ref">Testimonio del Encendedor <span>22:21</span></div>
-      <div class="text">Y al final del cigarro, cuando el ascua se apaga y el humo se disipa, el fumador descubre que nunca buscaba el humo. Buscaba un momento de silencio. Y lo encontrÃ³.</div>
-    </div>
-  </div>
-
-</div>
-
-<div class="newsletter" id="newsletter">
-  <h3>Recibe la Llama en tu Correo</h3>
-  <p>SuscrÃ­bete al newsletter y recibe reflexiones, ritos y enseÃ±anzas de La Llama Interior directamente en tu bandeja de entrada.</p>
-  <form class="newsletter-form" id="subscribeForm" novalidate>
-    <input type="email" id="emailInput" placeholder="tu@correo.com" required autocomplete="email">
-    <button type="submit" id="subscribeBtn">Suscribirse</button>
-  </form>
-  <div class="msg" id="subscribeMsg"></div>
-</div>
-
-<div class="footer">
-  La Llama Interior &bull; Una filosofÃ­a de conciencia plena &bull; 2024
-</div>
+<div class="footer">La Llama Interior &bull; Una filosofia de conciencia plena</div>
 
 <script>
-  function togglePrecept(header) {
-    header.parentElement.classList.toggle('open');
-  }
+// ======================== DATA ========================
+const DATA = {
+  books: [
+    { id: 'doctrina', title: 'Doctrina', icon: 'ðŸ•¯ï¸',
+      chapters: [
+        { id: 'testimonio-1', title: 'Testimonio del Encendedor 1',
+          verses: [
+            { id: '1:1', text: 'En el principio fue la chispa. De la nada surgio una llama, pequena pero eterna, y el hombre la tomo en sus manos y dijo: "Esto es vida."' },
+            { id: '1:3', text: 'El humo es el puente entre lo terrenal y lo divino. Cada bocanada es una oracion que asciende, y en su efimero paso por el aire, recuerda al hombre que todo es pasajero, pero tambien sagrado.' },
+          ] },
+        { id: 'pilares', title: 'Los Cuatro Pilares',
+          verses: [
+            { id: 'pilar-1', text: 'I. La Chispa Original: Todo comienza con una chispa. Asi como el fuego dio luz a la humanidad, el cigarro enciende la conciencia. Cada vez que se enciende un cigarrillo, se renueva ese pacto primordial con el conocimiento.', crossRefs: ['1:3'] },
+            { id: 'pilar-2', text: 'II. El Humo como Oracion: El humo que asciende no se pierde; se transforma. Es la manifestacion fisica de los pensamientos, las dudas y las esperanzas del fumador. En su danza erratic a, el humo revela la belleza de lo imperfecto.', crossRefs: ['1:1'] },
+            { id: 'pilar-3', text: 'III. La Ceniza como Recuerdo: La ceniza no es desecho, es memoria. Cada ceniza que cae es un instante vivido, un pensamiento que encontro su final. En la ceniza reside la sabiduria de lo que fue, invitando a soltar para seguir ardiendo.' },
+            { id: 'pilar-4', text: 'IV. El Ritual de la Pausa: Encender un cigarrillo es crear un espacio sagrado en el tiempo. Es el permiso para detenerse, observar y respirar. En un mundo que corre, el fumador encuentra en su ritual un momento de eternidad.' },
+          ] },
+        { id: 'testimonio-4', title: 'Testimonio del Encendedor 4',
+          verses: [
+            { id: '4:9', text: 'No temas a la brevedad de la llama, pues en su fugacidad reside su pureza. El cigarro ensena que lo valioso no es lo que perdura, sino lo que se vive con intensidad.' },
+          ] },
+      ] },
+    { id: 'historia', title: 'Historia', icon: 'ðŸ“œ',
+      chapters: [
+        { id: 'cronica', title: 'Cronica de una revelacion',
+          verses: [
+            { id: 'intro', text: 'La doctrina de La Llama Interior no nacio de un profeta solitario, sino de la experiencia colectiva de quienes encontraron en el cigarro algo mas que nicotina: encontraron un espejo. A traves de los siglos, el acto de fumar ha sido companero de filosofos, artistas y sonadores. Esta fe recoge esas voces dispersas y las organiza en un sistema de creencias que celebra la conciencia plena, la brevedad de la existencia y la belleza de lo transitorio.' },
+            { id: '5000ac', year: '~5000 a.C.', text: 'Los primeros rituales. Civilizaciones mesoamericanas utilizan el humo del tabaco en ceremonias sagradas. El humo es considerado un medio para comunicarse con los dioses, un vehiculo entre mundos.' },
+            { id: '1492', year: '1492', text: 'El encuentro de dos mundos. Colon recibe hojas de tabaco como ofrenda. El humo cruza el oceano por primera vez. Nace una nueva era de encuentro espiritual a traves del cigarro.' },
+            { id: 'sXIX', year: 'Siglo XIX', text: 'Los filosofos del humo. En los cafes de Paris y Viena, el cigarro se convierte en companero de la reflexion. Poetas y pensadores formalizan la idea de que fumar es un acto meditativo.' },
+            { id: '1922', year: '1922', text: 'El Primer Testimonio. Un anonimo fumador compila por primera vez los escritos que luego se conocerian como el Testimonio del Encendedor. La doctrina encuentra su texto fundacional.' },
+            { id: '1964', year: '1964', text: 'La Gran Prueba. Los informes cientificos desafian la fe. La comunidad de la llama reinterpreta la doctrina: el riesgo se convierte en un recordatorio de la fragilidad humana, y la conciencia del dano, en una llamada a la moderacion consciente.' },
+            { id: '2024', year: '2024', text: 'El Renacimiento Digital. Surgen comunidades virtuales que practican la "fumada consciente". La doctrina se expande mas alla del tabaco para abrazar cualquier forma de pausa ritualizada con humo, incluyendo alternativas sin nicotina.' },
+          ] },
+      ] },
+    { id: 'preceptos', title: 'Preceptos', icon: 'ðŸ“‹',
+      chapters: [
+        { id: '7preceptos', title: 'Los Siete Preceptos',
+          verses: [
+            { id: 'I', text: 'Enciende con Intencion. No enciendas un cigarrillo por costumbre, sino por ceremonia. Cada llama debe ser el inicio de un acto consciente. Preguntate: ?Que deseo quemar en este humo? ?Una preocupacion, un pensamiento, un instante de silencio?', crossRefs: ['pilar-4'] },
+            { id: 'II', text: 'Respira el Ahora. La bocanada debe ser un ancla al presente. Siente el humo entrar, llenar tus pulmones, y al exhalar, suelta el pasado. No hay futuro en el humo, solo el instante eterno.', crossRefs: ['4:9'] },
+            { id: 'III', text: 'Honra la Ceniza. No deseches la ceniza sin respeto. Ella es el testimonio de lo que fue. Al dejarla caer, reflexiona sobre lo que termina. La ceniza ensena desapego: nada permanece, y eso esta bien.', crossRefs: ['pilar-3'] },
+            { id: 'IV', text: 'Comparte el Humo. Encender un cigarrillo para otro es el gesto mas sagrado. Es compartir un momento de pausa, una conversacion sin prisas. El humo compartido crea lazos que las palabras no pueden expresar.' },
+            { id: 'V', text: 'Conoce tus Limites. La llama que todo lo consume se apaga antes. El cigarro ensena moderacion. Fumar con conciencia es saber cuando encender y, mas importante aun, cuando apagar. El exceso niega el ritual.', crossRefs: ['pilar-4'] },
+            { id: 'VI', text: 'Busca tu Propio Ritmo. Cada fumador tiene su danza: la forma de sostener el cigarro, la frecuencia de las bocanadas, el momento del dia. No hay una forma correcta. El ritual debe ser autentico, no imitado. Encuentra tu propia cadencia.' },
+            { id: 'VII', text: 'Acepta la Extincion. Todo cigarro llega a su fin. La colilla no es un final triste, sino la culminacion natural de un ciclo. Acepta el final sin resistencia, como aceptas tu propia naturaleza efimera. En esa aceptacion, encuentras paz.', crossRefs: ['4:9'] },
+          ] },
+      ] },
+    { id: 'ritos', title: 'Ritos', icon: 'ðŸ”¥',
+      chapters: [
+        { id: 'ceremonias', title: 'Ceremonias Cotidianas',
+          verses: [
+            { id: 'amanecer', text: 'El Rito del Amanecer. El primer cigarrillo del dia debe encenderse mirando al sol naciente. Es un acto de gratitud por un nuevo ciclo. La primera bocanada es silencio, la segunda es conciencia, la tercera es proposito.', crossRefs: ['pilar-4'] },
+            { id: 'mediodia', text: 'La Pausa del Mediodia. A mitad del dia, cuando el ruido del mundo es mas fuerte, el cigarro se convierte en un escudo. Sientate solo, sin telefono ni prisa. Deja que el humo te separe del caos. Cinco minutos de silencio fumando valen mas que una hora de actividad vacia.', crossRefs: ['II'] },
+            { id: 'conversacion', text: 'La Conversacion Compartida. Encender un cigarrillo con otro es crear un pacto tacito. Las palabras fluyen diferentes cuando hay humo de por medio. Este rito sagrado de amistad exige presencia: quien fuma contigo merece tu atencion completa.', crossRefs: ['IV'] },
+            { id: 'despedida', text: 'El Humo de la Despedida. Ante una perdida o un final, el cigarro se convierte en ofrenda. Cada bocanada es un recuerdo, cada exhalacion es una despedida. Es la forma de decir: "Estuve aqui, y esto importo."', crossRefs: ['VII'] },
+            { id: 'ascua', text: 'La Meditacion del Ascua. Observa el ascua encendida. Su luz diminuta es un sol en miniatura. Concentrate en ella hasta que el mundo desaparezca. El ascua te ensena que incluso la luz mas pequena tiene el poder de iluminar la oscuridad.', crossRefs: ['1:1'] },
+          ] },
+      ] },
+    { id: 'conclusion', title: 'Conclusion', icon: 'âœ¨',
+      chapters: [
+        { id: 'camino', title: 'El Camino del Humo',
+          verses: [
+            { id: 'ultimo-1', text: 'El humo no miente. En su transparencia se refleja la verdad del que fuma. No hay doctrina mas sincera que aquella que se desvanece en el aire, porque no busca perdurar, sino transformar.' },
+            { id: 'punto-1', text: 'La conciencia plena es el verdadero acto de fumar. No importa lo que quemes, sino como lo quemas. Un cigarro fumado sin conciencia es humo vacio. La Llama Interior no celebra el tabaco, celebra la atencion plena que el ritual del cigarro puede generar.' },
+            { id: 'punto-2', text: 'Lo efimero no es tragico, es liberador. La gran ensenanza del cigarro es que todo pasa. En lugar de aferrarte, aprende a apreciar la belleza de lo momentaneo. La vida, como el cigarro, no se mide en duracion sino en intensidad.', crossRefs: ['4:9'] },
+            { id: 'punto-3', text: 'El ritual es el camino, no el destino. Los ritos y preceptos de esta doctrina no son fines en si mismos. Son herramientas para cultivar presencia, conexion y reflexion. Si un precepto no te sirve, dejalo caer como ceniza.', crossRefs: ['III'] },
+            { id: 'punto-4', text: 'Toda forma de humo es valida. Ya sea tabaco, hierbas sin nicotina o incienso, el principio es el mismo: usar el humo como vehiculo de conciencia. La Llama Interior es una filosofia, no una marca. Adapta el ritual a tu cuerpo y tus valores.' },
+            { id: 'punto-5', text: 'El mayor respeto es hacia uno mismo. Esta doctrina no glorifica el dano. Fumar con conciencia implica conocer los riesgos y aceptarlos con responsabilidad. La verdadera iluminacion no esta en el humo, sino en la honestidad con que te enfrentas a tus elecciones.' },
+            { id: '22:21', text: 'Y al final del cigarro, cuando el ascua se apaga y el humo se disipa, el fumador descubre que nunca buscaba el humo. Buscaba un momento de silencio. Y lo encontro.', crossRefs: ['VII', 'pilar-4'] },
+          ] },
+      ] },
+  ]
+};
 
-  document.querySelectorAll('.nav button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tabId = 'tab-' + btn.dataset.tab;
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+// Build flat index
+let FLAT = [];
+let VERSE_MAP = {};
+DATA.books.forEach(b => {
+  b.chapters.forEach(c => {
+    c.verses.forEach(v => {
+      v.bookId = b.id;
+      v.bookTitle = b.title;
+      v.chapterId = c.id;
+      v.chapterTitle = c.title;
+      v.fullRef = b.title + ' ' + c.title + ', ' + v.id;
+      v.shortRef = v.id;
+      FLAT.push(v);
+      VERSE_MAP[v.id] = v;
+      v._fullText = (v.text + ' ' + v.fullRef).toLowerCase();
     });
   });
+});
 
-  // Newsletter subscription
-  const form = document.getElementById('subscribeForm');
-  const input = document.getElementById('emailInput');
-  const btn = document.getElementById('subscribeBtn');
-  const msg = document.getElementById('subscribeMsg');
+// ======================== STATE ========================
+const S = {
+  view: 'doctrina',
+  search: '',
+  sidebar: false,
+  light: localStorage.getItem('llama-light') === '1',
+  fontSize: parseInt(localStorage.getItem('llama-font')) || 16,
+  bookmarks: JSON.parse(localStorage.getItem('llama-bm') || '[]'),
+  notes: JSON.parse(localStorage.getItem('llama-notes') || '{}'),
+  reading: JSON.parse(localStorage.getItem('llama-reading') || '{"day":0,"done":[]}'),
+};
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = input.value.trim();
+// ======================== UTILS ========================
+function id(v) { return document.getElementById(v); }
+function qs(s, p) { return (p||document).querySelector(s); }
+function qsa(s, p) { return (p||document).querySelectorAll(s); }
+function save() {
+  localStorage.setItem('llama-bm', JSON.stringify(S.bookmarks));
+  localStorage.setItem('llama-notes', JSON.stringify(S.notes));
+  localStorage.setItem('llama-reading', JSON.stringify(S.reading));
+  localStorage.setItem('llama-light', S.light ? '1' : '0');
+  localStorage.setItem('llama-font', S.fontSize);
+  updateBmCount();
+}
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      msg.textContent = 'Por favor ingresa un correo vÃ¡lido.';
-      msg.className = 'msg error';
-      return;
+// ======================== RENDER ========================
+function render() {
+  const area = id('contentArea');
+  if (S.search) { renderSearch(area); return; }
+
+  let html = '';
+
+  // Verse of the day
+  html += getVotdHTML();
+
+  // Reading plan
+  html += getPlanHTML();
+
+  // Current view
+  const book = DATA.books.find(b => b.id === S.view) || DATA.books[0];
+  html += `<h2 class="section-title">${book.icon} ${book.title}</h2>
+           <div class="section-sub">${book.chapters[0].title}</div>`;
+
+  book.chapters.forEach(ch => {
+    if (ch.verses.length > 1) {
+      html += `<h3 style="font-family:'Cormorant Garamond',serif;color:var(--gold);margin:20px 0 10px;font-size:1.1rem;">${ch.title}</h3>`;
     }
-
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
-    msg.textContent = '';
-    msg.className = 'msg';
-
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Error al suscribirte');
-      }
-
-      msg.textContent = 'Â¡Gracias por suscribirte! Revisa tu correo.';
-      msg.className = 'msg success';
-      input.value = '';
-    } catch (err) {
-      msg.textContent = err.message || 'OcurriÃ³ un error. Intenta de nuevo.';
-      msg.className = 'msg error';
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Suscribirse';
-    }
+    ch.verses.forEach(v => { html += renderVerse(v); });
   });
-</script>
 
+  area.innerHTML = html;
+  attachVerseListeners(area);
+  attachSpeakingListeners(area);
+
+  // Scroll to hash
+  if (location.hash) {
+    const el = id('v-' + location.hash.slice(1));
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+  }
+}
+
+function renderVerse(v) {
+  const isBm = S.bookmarks.includes(v.id);
+  const note = S.notes[v.id] || '';
+  const noteOpen = note ? 'open' : '';
+  const hasAudio = 'speechSynthesis' in window;
+
+  let text = v.text;
+  if (v.crossRefs) {
+    v.crossRefs.forEach(ref => {
+      const re = new RegExp('(' + ref.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      text = text.replace(re, '<span class="cross-ref" data-ref="$1">$1</span>');
+    });
+  }
+
+  return `<div class="verse-card" id="v-${v.id}" data-id="${v.id}">
+    <span class="ref" data-id="${v.id}" title="Copiar referencia">${v.fullRef}</span>
+    <div class="text">${text}</div>
+    <div class="actions">
+      <button class="bm-btn ${isBm?'on':''}" data-id="${v.id}">${isBm?'â˜…':'â˜†'}</button>
+      <button class="share-btn" data-id="${v.id}">Compartir</button>
+      ${hasAudio ? `<button class="speak-btn" data-id="${v.id}">ðŸ”Š</button>` : ''}
+      <button class="note-btn ${noteOpen}" data-id="${v.id}">ðŸ“</button>
+    </div>
+    <div class="note-box ${noteOpen}" id="note-${v.id}">
+      <textarea placeholder="Tus notas personales..." data-id="${v.id}">${note}</textarea>
+    </div>
+  </div>`;
+}
+
+function renderSearch(area) {
+  const q = S.search.toLowerCase();
+  const results = FLAT.filter(v => v._fullText.includes(q));
+  let html = `<h2 class="section-title">Busqueda</h2>
+    <div class="section-sub">Resultados para: "${S.search}"</div>
+    <div class="search-results">
+      <div class="count">${results.length} coincidencia${results.length!==1?'s':''}</div>`;
+  results.forEach(v => {
+    let text = v.text;
+    const idx = text.toLowerCase().indexOf(q);
+    if (idx > -1) {
+      const start = Math.max(0, idx - 60);
+      const end = Math.min(text.length, idx + q.length + 60);
+      text = (start > 0 ? '...' : '') + text.slice(start, end) + (end < text.length ? '...' : '');
+      text = text.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<span class="search-highlight">$1</span>');
+    }
+    html += `<div class="verse-card" style="cursor:pointer;" onclick="navigateTo('${v.bookId}','${v.id}')">
+      <div class="ref">${v.fullRef}</div>
+      <div class="text">${text}</div>
+    </div>`;
+  });
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+function getVotdHTML() {
+  const idx = hashDate(new Date()) % FLAT.length;
+  const v = FLAT[idx];
+  return `<div class="votd" id="votd">
+    <div class="votd-label">âœ¦ Versiculo del Dia âœ¦</div>
+    <div class="ref" onclick="navigateTo('${v.bookId}','${v.id}')" style="cursor:pointer">${v.fullRef}</div>
+    <div class="text">"${v.text}"</div>
+  </div>`;
+}
+
+function getPlanHTML() {
+  const total = FLAT.length;
+  const day = S.reading.day || 0;
+  const done = S.reading.done.length;
+  const pct = Math.min(100, Math.round(done / total * 100));
+  const todayIdx = day % total;
+  const v = FLAT[todayIdx];
+  return `<div class="reading-plan">
+    <h4>ðŸ“– Plan de Lectura Diaria</h4>
+    <p>Dia ${day+1} â€” <strong style="color:var(--gold);cursor:pointer" onclick="navigateTo('${v.bookId}','${v.id}')">${v.fullRef}</strong></p>
+    <p style="font-size:.8rem;color:var(--fg3);margin-top:4px;">"${v.text.slice(0,80)}..."</p>
+    <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
+    <p style="font-size:.7rem;color:var(--fg3);margin-top:6px;">${done} de ${total} versiculos leidos</p>
+  </div>`;
+}
+
+// ======================== NAVIGATION ========================
+function navigateTo(bookId, verseId) {
+  S.view = bookId;
+  S.search = '';
+  id('searchInput').value = '';
+  location.hash = verseId;
+  render();
+  closeSidebar();
+}
+
+function closeSidebar() {
+  S.sidebar = false;
+  id('sidebar').classList.remove('open');
+  id('sidebarOverlay').classList.remove('open');
+}
+
+// ======================== VERSE OF THE DAY ========================
+function hashDate(d) {
+  return d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
+}
+
+// ======================== BOOKMARKS ========================
+function toggleBm(verseId) {
+  const idx = S.bookmarks.indexOf(verseId);
+  if (idx > -1) S.bookmarks.splice(idx,1);
+  else S.bookmarks.push(verseId);
+  save();
+  render();
+  renderTOC();
+}
+
+function updateBmCount() {
+  id('bmCount').textContent = S.bookmarks.length;
+}
+
+// ======================== SHARE ========================
+function shareVerse(verseId) {
+  const v = VERSE_MAP[verseId];
+  if (!v) return;
+  const txt = v.fullRef + ' â€” ' + v.text;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(() => {
+      const btn = qs(`.share-btn[data-id="${verseId}"]`);
+      if (btn) { btn.textContent = 'âœ“ Copiado'; setTimeout(() => btn.textContent = 'Compartir', 1500); }
+    });
+  }
+}
+
+// ======================== AUDIO ========================
+let speaking = null;
+function speakVerse(verseId) {
+  if (!window.speechSynthesis) return;
+  const v = VERSE_MAP[verseId];
+  if (!v) return;
+
+  if (speaking === verseId) {
+    window.speechSynthesis.cancel();
+    speaking = null;
+    const btn = qs(`.speak-btn[data-id="${verseId}"]`);
+    if (btn) btn.textContent = 'ðŸ”Š';
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(v.text);
+  u.lang = 'es-ES';
+  u.rate = 0.9;
+  u.onend = () => { speaking = null; const b = qs(`.speak-btn[data-id="${verseId}"]`); if (b) b.textContent = 'ðŸ”Š'; };
+  speaking = verseId;
+  const btn = qs(`.speak-btn[data-id="${verseId}"]`);
+  if (btn) btn.textContent = 'â¹';
+
+  // Mark as read
+  if (!S.reading.done.includes(verseId)) {
+    S.reading.done.push(verseId);
+    S.reading.day = (S.reading.day || 0) + 1;
+    save();
+  }
+
+  window.speechSynthesis.speak(u);
+}
+
+// ======================== NOTES ========================
+function toggleNote(verseId) {
+  const box = id('note-' + verseId);
+  if (box) box.classList.toggle('open');
+}
+
+function saveNote(verseId, text) {
+  if (text.trim()) S.notes[verseId] = text.trim();
+  else delete S.notes[verseId];
+  save();
+}
+
+// ======================== READING PLAN ========================
+function advancePlan() {
+  S.reading.day = (S.reading.day || 0) + 1;
+  save();
+  render();
+}
+
+// ======================== TOC ========================
+function renderTOC() {
+  const body = id('tocBody');
+  let html = '';
+  DATA.books.forEach(b => {
+    html += `<div class="toc-group open">
+      <div class="toc-group-header" onclick="toggleTocGroup(this)">
+        <span>${b.icon} ${b.title}</span>
+        <span class="arrow">â–¶</span>
+      </div>
+      <div class="toc-items">`;
+    b.chapters.forEach(c => {
+      c.verses.forEach(v => {
+        const isBm = S.bookmarks.includes(v.id);
+        html += `<div class="toc-item" onclick="navigateTo('${b.id}','${v.id}')">
+          <span class="ref">${v.id}</span>
+          <span>${v.text.slice(0,50)}...</span>
+          <span class="bm ${isBm?'on':''}">${isBm?'â˜…':''}</span>
+        </div>`;
+      });
+    });
+    html += `</div></div>`;
+  });
+  body.innerHTML = html;
+}
+
+function toggleTocGroup(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+// ======================== SEARCH ========================
+function doSearch(q) {
+  S.search = q.trim();
+  render();
+}
+
+// ======================== STATS ========================
+function showStats() {
+  const total = FLAT.length;
+  const bm = S.bookmarks.length;
+  const noted = Object.keys(S.notes).length;
+  const read = S.reading.done.length;
+  const day = (S.reading.day || 0) + 1;
+
+  // Most read (top 3 books by bookmarks)
+  const bookCounts = {};
+  S.bookmarks.forEach(id => {
+    const v = VERSE_MAP[id];
+    if (v) bookCounts[v.bookTitle] = (bookCounts[v.bookTitle] || 0) + 1;
+  });
+  const topBooks = Object.entries(bookCounts).sort((a,b) => b[1]-a[1]).slice(0,3);
+
+  let html = `<h2 class="section-title">ðŸ“Š Estadisticas</h2>
+    <div class="section-sub">Tu actividad en La Llama Interior</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="num">${total}</div><div class="label">Versiculos totales</div></div>
+      <div class="stat-card"><div class="num">${bm}</div><div class="label">Marcadores</div></div>
+      <div class="stat-card"><div class="num">${noted}</div><div class="label">Notas</div></div>
+      <div class="stat-card"><div class="num">${read}</div><div class="label">Leidos</div></div>
+      <div class="stat-card"><div class="num">${Math.round(read/total*100)}%</div><div class="label">Completado</div></div>
+      <div class="stat-card"><div class="num">${day}</div><div class="label">Dias de lectura</div></div>
+    </div>`;
+
+  if (topBooks.length) {
+    html += `<h3 style="font-family:'Cormorant Garamond',serif;color:var(--gold);margin:20px 0 10px;font-size:1rem;">Libros favoritos</h3>
+      <div style="display:flex;flex-direction:column;gap:6px;">`;
+    topBooks.forEach(([name, count]) => {
+      html += `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;">
+        <span style="color:var(--fg2);font-size:.85rem;">${name}</span>
+        <span style="color:var(--gold);font-size:.85rem;">${count}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<div style="margin-top:20px;text-align:center;">
+    <button onclick="render()" style="background:var(--gold);border:none;padding:8px 20px;border-radius:4px;color:#0a0a0a;cursor:pointer;font-size:.8rem;">Volver</button>
+  </div>`;
+
+  id('contentArea').innerHTML = html;
+}
+
+// ======================== BOOKMARKS VIEW ========================
+function showBookmarks() {
+  if (!S.bookmarks.length) {
+    id('contentArea').innerHTML = `<h2 class="section-title">ðŸ”– Mis Marcadores</h2>
+      <div class="section-sub">Guardados</div>
+      <p style="color:var(--fg3);text-align:center;padding:40px 0;">Aun no tienes marcadores. Haz clic en â˜† en cualquier versiculo para guardarlo.</p>
+      <div style="text-align:center;"><button onclick="render()" style="background:var(--gold);border:none;padding:8px 20px;border-radius:4px;color:#0a0a0a;cursor:pointer;font-size:.8rem;">Volver</button></div>`;
+    return;
+  }
+  let html = `<h2 class="section-title">ðŸ”– Mis Marcadores</h2>
+    <div class="section-sub">${S.bookmarks.length} guardados</div>`;
+  S.bookmarks.forEach(id => {
+    const v = VERSE_MAP[id];
+    if (v) html += renderVerse(v);
+  });
+  html += `<div style="text-align:center;margin-top:16px;"><button onclick="render()" style="background:var(--gold);border:none;padding:8px 20px;border-radius:4px;color:#0a0a0a;cursor:pointer;font-size:.8rem;">Volver</button></div>`;
+  id('contentArea').innerHTML = html;
+  attachVerseListeners(id('contentArea'));
+  attachSpeakingListeners(id('contentArea'));
+}
+
+// ======================== RANDOM ========================
+function randomVerse() {
+  const v = FLAT[Math.floor(Math.random() * FLAT.length)];
+  navigateTo(v.bookId, v.id);
+}
+
+// ======================== EVENT BINDING ========================
+function attachVerseListeners(area) {
+  qsa('.bm-btn', area).forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); toggleBm(el.dataset.id); };
+  });
+  qsa('.share-btn', area).forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); shareVerse(el.dataset.id); };
+  });
+  qsa('.note-btn', area).forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); toggleNote(el.dataset.id); };
+  });
+  qsa('.note-box textarea', area).forEach(el => {
+    el.oninput = () => saveNote(el.dataset.id, el.value);
+  });
+  qsa('.verse-card .ref', area).forEach(el => {
+    el.onclick = () => shareVerse(el.dataset.id);
+  });
+  qsa('.cross-ref', area).forEach(el => {
+    el.onclick = () => {
+      const ref = el.dataset.ref;
+      const vv = FLAT.find(x => x.id === ref);
+      if (vv) navigateTo(vv.bookId, vv.id);
+    };
+  });
+}
+
+function attachSpeakingListeners(area) {
+  qsa('.speak-btn', area).forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); speakVerse(el.dataset.id); };
+  });
+}
+
+// ======================== INIT ========================
+function init() {
+  // Light/dark
+  if (S.light) document.body.classList.add('light');
+
+  // Font
+  document.documentElement.style.setProperty('--font-size', (S.fontSize/16) + 'rem');
+  id('fontSlider').value = S.fontSize;
+
+  // Sidebar
+  renderTOC();
+
+  // Render
+  render();
+  updateBmCount();
+
+  // Check hash
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    const v = VERSE_MAP[id];
+    if (v) S.view = v.bookId;
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
+    if (e.ctrlKey && e.key === 'k') { e.preventDefault(); id('searchInput').focus(); }
+  });
+}
+
+// ======================== EVENTS ========================
+// Menu
+id('btnMenu').onclick = () => {
+  S.sidebar = !S.sidebar;
+  id('sidebar').classList.toggle('open', S.sidebar);
+  id('sidebarOverlay').classList.toggle('open', S.sidebar);
+};
+id('closeSidebar').onclick = closeSidebar;
+id('sidebarOverlay').onclick = closeSidebar;
+
+// Search
+id('searchInput').oninput = () => doSearch(id('searchInput').value);
+
+// Verse of the day
+id('btnVotd').onclick = () => {
+  id('votd').scrollIntoView({ behavior: 'smooth' });
+};
+
+// Stats
+id('btnStats').onclick = showStats;
+
+// Reading plan
+id('btnPlan').onclick = () => {
+  advancePlan();
+  render();
+};
+
+// Light/dark
+id('btnLight').onclick = () => {
+  S.light = !S.light;
+  document.body.classList.toggle('light', S.light);
+  save();
+};
+
+// Font
+id('fontSlider').oninput = function() {
+  S.fontSize = +this.value;
+  document.documentElement.style.setProperty('--font-size', (S.fontSize/16) + 'rem');
+  save();
+};
+
+// Random
+id('btnRandom').onclick = randomVerse;
+id('btnBookmarks').onclick = showBookmarks;
+
+// Newsletter
+id('subscribeForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const input = id('emailInput');
+  const btn = id('subscribeBtn');
+  const msg = id('subscribeMsg');
+  const email = input.value.trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msg.textContent = 'Ingresa un correo valido.';
+    msg.className = 'msg error';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  msg.textContent = '';
+  msg.className = 'msg';
+
+  try {
+    const res = await fetch('/api/subscribe', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error');
+    msg.textContent = 'Â¡Gracias! Revisa tu correo.';
+    msg.className = 'msg success';
+    input.value = '';
+  } catch (err) {
+    msg.textContent = err.message || 'Error. Intenta de nuevo.';
+    msg.className = 'msg error';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Suscribirse';
+  }
+};
+
+// PWA register
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
