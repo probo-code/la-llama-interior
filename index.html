@@ -281,6 +281,74 @@
     line-height: 1.6;
   }
 
+  .newsletter {
+    max-width: 520px;
+    margin: 0 auto 40px;
+    text-align: center;
+    padding: 32px 24px;
+    background: #0f0d08;
+    border: 1px solid #1a1408;
+    border-radius: 6px;
+  }
+  .newsletter h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #c9a84c;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .newsletter p {
+    color: #7a6a4a;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .newsletter-form {
+    display: flex;
+    gap: 8px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .newsletter-form input {
+    flex: 1;
+    padding: 10px 14px;
+    background: #0a0a0a;
+    border: 1px solid #2a2010;
+    border-radius: 4px;
+    color: #d4c9a8;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .newsletter-form input::placeholder { color: #4a3a1a; }
+  .newsletter-form input:focus { border-color: #5a4a2a; }
+  .newsletter-form button {
+    padding: 10px 20px;
+    background: #c9a84c;
+    border: none;
+    border-radius: 4px;
+    color: #0a0a0a;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, opacity 0.3s;
+    white-space: nowrap;
+  }
+  .newsletter-form button:hover { background: #dab85c; }
+  .newsletter-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .newsletter .msg {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    min-height: 1.2em;
+    transition: color 0.3s;
+  }
+  .newsletter .msg.success { color: #6aaa3a; }
+  .newsletter .msg.error { color: #aa3a3a; }
+
   .footer {
     text-align: center;
     padding: 30px 20px;
@@ -600,6 +668,16 @@
 
 </div>
 
+<div class="newsletter" id="newsletter">
+  <h3>Recibe la Llama en tu Correo</h3>
+  <p>SuscrÃ­bete al newsletter y recibe reflexiones, ritos y enseÃ±anzas de La Llama Interior directamente en tu bandeja de entrada.</p>
+  <form class="newsletter-form" id="subscribeForm" novalidate>
+    <input type="email" id="emailInput" placeholder="tu@correo.com" required autocomplete="email">
+    <button type="submit" id="subscribeBtn">Suscribirse</button>
+  </form>
+  <div class="msg" id="subscribeMsg"></div>
+</div>
+
 <div class="footer">
   La Llama Interior &bull; Una filosofÃ­a de conciencia plena &bull; 2024
 </div>
@@ -618,6 +696,52 @@
       document.getElementById(tabId).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  });
+
+  // Newsletter subscription
+  const form = document.getElementById('subscribeForm');
+  const input = document.getElementById('emailInput');
+  const btn = document.getElementById('subscribeBtn');
+  const msg = document.getElementById('subscribeMsg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msg.textContent = 'Por favor ingresa un correo vÃ¡lido.';
+      msg.className = 'msg error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    msg.textContent = '';
+    msg.className = 'msg';
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Error al suscribirte');
+      }
+
+      msg.textContent = 'Â¡Gracias por suscribirte! Revisa tu correo.';
+      msg.className = 'msg success';
+      input.value = '';
+    } catch (err) {
+      msg.textContent = err.message || 'OcurriÃ³ un error. Intenta de nuevo.';
+      msg.className = 'msg error';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Suscribirse';
+    }
   });
 </script>
 
