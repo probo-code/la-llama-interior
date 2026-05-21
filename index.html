@@ -139,9 +139,10 @@ body {
 }
 .toc-item:hover { color: var(--gold); background: var(--bg); }
 .toc-item .ref { color: var(--gold3); font-size: .7rem; }
-.toc-item .bm { margin-left: auto; font-size: .6rem; color: var(--gold); opacity: 0; }
-.toc-item:hover .bm { opacity: .5; }
+.toc-item .bm { margin-left: auto; font-size: .6rem; opacity: 0; }
+.toc-item:hover .bm { opacity: .3; }
 .toc-item .bm.on { opacity: 1; }
+.toc-item .bm.on::before { content: '~'; color: var(--gold); font-size: .7rem; }
 
 /* Main */
 .main-wrap {
@@ -194,6 +195,9 @@ body {
 }
 .verse-card .actions button:hover { border-color: var(--gold); color: var(--gold); }
 .verse-card .actions button.on { border-color: var(--gold); color: var(--gold); }
+.verse-card .actions .bm-btn { min-width: 28px; }
+.verse-card .actions .bm-btn::before { content: '~'; color: var(--fg3); }
+.verse-card .actions .bm-btn.on::before { content: '~'; color: var(--gold); font-weight: bold; }
 .verse-card .note-box {
   max-height: 0; overflow: hidden; transition: max-height .3s, margin .3s;
 }
@@ -215,6 +219,8 @@ body {
   font-size: .65rem; letter-spacing: 3px; text-transform: uppercase;
   color: var(--fg3); margin-bottom: 8px;
 }
+.votd-label::before { content: '~ '; color: var(--gold); }
+.votd-label::after  { content: ' ~'; color: var(--gold); }
 .votd .ref { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: .9rem; }
 .votd .text { color: var(--fg2); font-style: italic; font-size: 1.1rem; line-height: 1.7; margin-top: 6px; }
 
@@ -321,16 +327,16 @@ body {
 
 <!-- Toolbar -->
 <div class="toolbar" id="toolbar">
-  <button id="btnMenu" title="Tabla de contenidos">[=]</button>
-  <button id="btnVotd" title="Versiculo del dia">(dia)</button>
-  <button id="btnStats" title="Estadisticas">(stats)</button>
-  <button id="btnPlan" title="Plan de lectura">(plan)</button>
-  <button id="btnLight" title="Modo claro/oscuro">(sol)</button>
+  <button id="btnMenu" title="Tabla de contenidos">Menu</button>
+  <button id="btnVotd" title="Versiculo del dia">Hoy</button>
+  <button id="btnStats" title="Estadisticas">Stats</button>
+  <button id="btnPlan" title="Plan de lectura">Plan</button>
+  <button id="btnLight" title="Modo claro/oscuro">Tema</button>
   <span class="spacer"></span>
   <label title="Tamano de letra">A- <input type="range" id="fontSlider" min="12" max="24" value="16"> A+</label>
   <span class="spacer"></span>
-  <button id="btnRandom" title="Versiculo aleatorio">(rand)</button>
-  <button id="btnBookmarks" title="Mis marcadores">(bm) <span id="bmCount" style="font-size:.65rem;color:var(--gold3)">0</span></button>
+  <button id="btnRandom" title="Versiculo aleatorio">Azar</button>
+  <button id="btnBookmarks" title="Mis marcadores">Fav <span id="bmCount" style="font-size:.65rem;color:var(--gold3)">0</span></button>
 </div>
 
 <!-- Sidebar overlay -->
@@ -370,7 +376,7 @@ body {
 // ======================== DATA ========================
 const DATA = {
   books: [
-    { id: 'doctrina', title: 'Doctrina', icon: '[Luz]',
+    { id: 'doctrina', title: 'Doctrina',
       chapters: [
         { id: 'testimonio-1', title: 'Testimonio del Encendedor 1',
           verses: [
@@ -389,7 +395,7 @@ const DATA = {
             { id: '4:9', text: 'No temas a la brevedad de la llama, pues en su fugacidad reside su pureza. El cigarro ensena que lo valioso no es lo que perdura, sino lo que se vive con intensidad.' },
           ] },
       ] },
-    { id: 'historia', title: 'Historia', icon: '[Hist]',
+    { id: 'historia', title: 'Historia',
       chapters: [
         { id: 'cronica', title: 'Cronica de una revelacion',
           verses: [
@@ -402,7 +408,7 @@ const DATA = {
             { id: '2024', year: '2024', text: 'El Renacimiento Digital. Surgen comunidades virtuales que practican la "fumada consciente". La doctrina se expande mas alla del tabaco para abrazar cualquier forma de pausa ritualizada con humo, incluyendo alternativas sin nicotina.' },
           ] },
       ] },
-    { id: 'preceptos', title: 'Preceptos', icon: '[Pre]',
+    { id: 'preceptos', title: 'Preceptos',
       chapters: [
         { id: '7preceptos', title: 'Los Siete Preceptos',
           verses: [
@@ -415,7 +421,7 @@ const DATA = {
             { id: 'VII', text: 'Acepta la Extincion. Todo cigarro llega a su fin. La colilla no es un final triste, sino la culminacion natural de un ciclo. Acepta el final sin resistencia, como aceptas tu propia naturaleza efimera. En esa aceptacion, encuentras paz.', crossRefs: ['4:9'] },
           ] },
       ] },
-    { id: 'ritos', title: 'Ritos', icon: '[Fuego]',
+    { id: 'ritos', title: 'Ritos',
       chapters: [
         { id: 'ceremonias', title: 'Ceremonias Cotidianas',
           verses: [
@@ -426,7 +432,7 @@ const DATA = {
             { id: 'ascua', text: 'La Meditacion del Ascua. Observa el ascua encendida. Su luz diminuta es un sol en miniatura. Concentrate en ella hasta que el mundo desaparezca. El ascua te ensena que incluso la luz mas pequena tiene el poder de iluminar la oscuridad.', crossRefs: ['1:1'] },
           ] },
       ] },
-    { id: 'conclusion', title: 'Conclusion', icon: '[Fin]',
+    { id: 'conclusion', title: 'Conclusion',
       chapters: [
         { id: 'camino', title: 'El Camino del Humo',
           verses: [
@@ -501,7 +507,7 @@ function render() {
 
   // Current view
   const book = DATA.books.find(b => b.id === S.view) || DATA.books[0];
-  html += `<h2 class="section-title">${book.icon} ${book.title}</h2>
+  html += `<h2 class="section-title">${book.title}</h2>
            <div class="section-sub">${book.chapters[0].title}</div>`;
 
   book.chapters.forEach(ch => {
@@ -540,10 +546,10 @@ function renderVerse(v) {
     <span class="ref" data-id="${v.id}" title="Copiar referencia">${v.fullRef}</span>
     <div class="text">${text}</div>
     <div class="actions">
-      <button class="bm-btn ${isBm?'on':''}" data-id="${v.id}">${isBm?'*':'*'}</button>
+      <button class="bm-btn ${isBm?'on':''}" data-id="${v.id}"></button>
       <button class="share-btn" data-id="${v.id}">Compartir</button>
-      ${hasAudio ? `<button class="speak-btn" data-id="${v.id}">[audio]</button>` : ''}
-      <button class="note-btn ${noteOpen}" data-id="${v.id}">[note]</button>
+      ${hasAudio ? `<button class="speak-btn" data-id="${v.id}">Aud</button>` : ''}
+      <button class="note-btn ${noteOpen}" data-id="${v.id}">Nota</button>
     </div>
     <div class="note-box ${noteOpen}" id="note-${v.id}">
       <textarea placeholder="Tus notas personales..." data-id="${v.id}">${note}</textarea>
@@ -580,7 +586,7 @@ function getVotdHTML() {
   const idx = hashDate(new Date()) % FLAT.length;
   const v = FLAT[idx];
   return `<div class="votd" id="votd">
-    <div class="votd-label">* Versiculo del Dia *</div>
+    <div class="votd-label">Versiculo del Dia</div>
     <div class="ref" onclick="navigateTo('${v.bookId}','${v.id}')" style="cursor:pointer">${v.fullRef}</div>
     <div class="text">"${v.text}"</div>
   </div>`;
@@ -594,7 +600,7 @@ function getPlanHTML() {
   const todayIdx = day % total;
   const v = FLAT[todayIdx];
   return `<div class="reading-plan">
-    <h4>(plan) Plan de Lectura Diaria</h4>
+    <h4>Plan de Lectura Diaria</h4>
     <p>Dia ${day+1} &mdash; <strong style="color:var(--gold);cursor:pointer" onclick="navigateTo('${v.bookId}','${v.id}')">${v.fullRef}</strong></p>
     <p style="font-size:.8rem;color:var(--fg3);margin-top:4px;">"${v.text.slice(0,80)}..."</p>
     <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
@@ -645,7 +651,7 @@ function shareVerse(verseId) {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(txt).then(() => {
       const btn = qs(`.share-btn[data-id="${verseId}"]`);
-      if (btn) { btn.textContent = 'OK Copiado'; setTimeout(() => btn.textContent = 'Compartir', 1500); }
+      if (btn) { btn.textContent = 'Copiado'; setTimeout(() => btn.textContent = 'Compartir', 1500); }
     });
   }
 }
@@ -661,7 +667,7 @@ function speakVerse(verseId) {
     window.speechSynthesis.cancel();
     speaking = null;
     const btn = qs(`.speak-btn[data-id="${verseId}"]`);
-    if (btn) btn.textContent = '[audio]';
+    if (btn) btn.textContent = 'Aud';
     return;
   }
 
@@ -669,10 +675,10 @@ function speakVerse(verseId) {
   const u = new SpeechSynthesisUtterance(v.text);
   u.lang = 'es-ES';
   u.rate = 0.9;
-  u.onend = () => { speaking = null; const b = qs(`.speak-btn[data-id="${verseId}"]`); if (b) b.textContent = '[audio]'; };
+  u.onend = () => { speaking = null; const b = qs(`.speak-btn[data-id="${verseId}"]`); if (b) b.textContent = 'Aud'; };
   speaking = verseId;
   const btn = qs(`.speak-btn[data-id="${verseId}"]`);
-  if (btn) btn.textContent = '[stop]';
+  if (btn) btn.textContent = 'Parar';
 
   // Mark as read
   if (!S.reading.done.includes(verseId)) {
@@ -710,7 +716,7 @@ function renderTOC() {
   DATA.books.forEach(b => {
     html += `<div class="toc-group open">
       <div class="toc-group-header" onclick="toggleTocGroup(this)">
-        <span>${b.icon} ${b.title}</span>
+        <span>${b.title}</span>
         <span class="arrow">></span>
       </div>
       <div class="toc-items">`;
@@ -720,7 +726,7 @@ function renderTOC() {
         html += `<div class="toc-item" onclick="navigateTo('${b.id}','${v.id}')">
           <span class="ref">${v.id}</span>
           <span>${v.text.slice(0,50)}...</span>
-          <span class="bm ${isBm?'on':''}">${isBm?'*':''}</span>
+          <span class="bm ${isBm?'on':''}"></span>
         </div>`;
       });
     });
@@ -755,7 +761,7 @@ function showStats() {
   });
   const topBooks = Object.entries(bookCounts).sort((a,b) => b[1]-a[1]).slice(0,3);
 
-  let html = `<h2 class="section-title">(stats) Estadisticas</h2>
+  let html = `<h2 class="section-title">Estadisticas</h2>
     <div class="section-sub">Tu actividad en La Llama Interior</div>
     <div class="stats-grid">
       <div class="stat-card"><div class="num">${total}</div><div class="label">Versiculos totales</div></div>
@@ -788,13 +794,13 @@ function showStats() {
 // ======================== BOOKMARKS VIEW ========================
 function showBookmarks() {
   if (!S.bookmarks.length) {
-    id('contentArea').innerHTML = `<h2 class="section-title">(bm) Mis Marcadores</h2>
+    id('contentArea').innerHTML = `<h2 class="section-title">Mis Marcadores</h2>
       <div class="section-sub">Guardados</div>
       <p style="color:var(--fg3);text-align:center;padding:40px 0;">Aun no tienes marcadores. Haz clic en * en cualquier versiculo para guardarlo.</p>
       <div style="text-align:center;"><button onclick="render()" style="background:var(--gold);border:none;padding:8px 20px;border-radius:4px;color:#0a0a0a;cursor:pointer;font-size:.8rem;">Volver</button></div>`;
     return;
   }
-  let html = `<h2 class="section-title">(bm) Mis Marcadores</h2>
+  let html = `<h2 class="section-title">Mis Marcadores</h2>
     <div class="section-sub">${S.bookmarks.length} guardados</div>`;
   S.bookmarks.forEach(id => {
     const v = VERSE_MAP[id];
