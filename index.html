@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="La Llama Interior â€” Biblia digital del sistema de creencias basado en el cigarro como herramienta de conciencia plena. Busqueda, marcadores, audio y mas.">
+<meta name="description" content="La Llama Interior &mdash; Biblia digital del sistema de creencias basado en el cigarro como herramienta de conciencia plena. Busqueda, marcadores, audio y mas.">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
-<title>La Llama Interior â€” Biblia Digital</title>
+<title>La Llama Interior &mdash; Biblia Digital</title>
 <style>
 :root {
   --bg: #0a0a0a; --bg2: #0f0d08; --bg3: #1a1408;
@@ -321,16 +321,16 @@ body {
 
 <!-- Toolbar -->
 <div class="toolbar" id="toolbar">
-  <button id="btnMenu" title="Tabla de contenidos">â˜°</button>
-  <button id="btnVotd" title="Versiculo del dia">ðŸŽ¯</button>
-  <button id="btnStats" title="Estadisticas">ðŸ“Š</button>
-  <button id="btnPlan" title="Plan de lectura">ðŸ“–</button>
-  <button id="btnLight" title="Modo claro/oscuro">â˜€ï¸</button>
+  <button id="btnMenu" title="Tabla de contenidos">[=]</button>
+  <button id="btnVotd" title="Versiculo del dia">(dia)</button>
+  <button id="btnStats" title="Estadisticas">(stats)</button>
+  <button id="btnPlan" title="Plan de lectura">(plan)</button>
+  <button id="btnLight" title="Modo claro/oscuro">(sol)</button>
   <span class="spacer"></span>
-  <label title="Tamano de letra">Aâ» <input type="range" id="fontSlider" min="12" max="24" value="16"> Aâº</label>
+  <label title="Tamano de letra">A- <input type="range" id="fontSlider" min="12" max="24" value="16"> A+</label>
   <span class="spacer"></span>
-  <button id="btnRandom" title="Versiculo aleatorio">ðŸŽ²</button>
-  <button id="btnBookmarks" title="Mis marcadores">ðŸ”– <span id="bmCount" style="font-size:.65rem;color:var(--gold3)">0</span></button>
+  <button id="btnRandom" title="Versiculo aleatorio">(rand)</button>
+  <button id="btnBookmarks" title="Mis marcadores">(bm) <span id="bmCount" style="font-size:.65rem;color:var(--gold3)">0</span></button>
 </div>
 
 <!-- Sidebar overlay -->
@@ -340,7 +340,7 @@ body {
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <h3>Contenido</h3>
-    <button id="closeSidebar">âœ•</button>
+    <button id="closeSidebar">X</button>
   </div>
   <div class="sidebar-search">
     <input type="text" id="searchInput" placeholder="Buscar en las escrituras..." autocomplete="off">
@@ -370,7 +370,7 @@ body {
 // ======================== DATA ========================
 const DATA = {
   books: [
-    { id: 'doctrina', title: 'Doctrina', icon: 'ðŸ•¯ï¸',
+    { id: 'doctrina', title: 'Doctrina', icon: '[Luz]',
       chapters: [
         { id: 'testimonio-1', title: 'Testimonio del Encendedor 1',
           verses: [
@@ -389,7 +389,7 @@ const DATA = {
             { id: '4:9', text: 'No temas a la brevedad de la llama, pues en su fugacidad reside su pureza. El cigarro ensena que lo valioso no es lo que perdura, sino lo que se vive con intensidad.' },
           ] },
       ] },
-    { id: 'historia', title: 'Historia', icon: 'ðŸ“œ',
+    { id: 'historia', title: 'Historia', icon: '[Hist]',
       chapters: [
         { id: 'cronica', title: 'Cronica de una revelacion',
           verses: [
@@ -402,7 +402,7 @@ const DATA = {
             { id: '2024', year: '2024', text: 'El Renacimiento Digital. Surgen comunidades virtuales que practican la "fumada consciente". La doctrina se expande mas alla del tabaco para abrazar cualquier forma de pausa ritualizada con humo, incluyendo alternativas sin nicotina.' },
           ] },
       ] },
-    { id: 'preceptos', title: 'Preceptos', icon: 'ðŸ“‹',
+    { id: 'preceptos', title: 'Preceptos', icon: '[Pre]',
       chapters: [
         { id: '7preceptos', title: 'Los Siete Preceptos',
           verses: [
@@ -415,7 +415,7 @@ const DATA = {
             { id: 'VII', text: 'Acepta la Extincion. Todo cigarro llega a su fin. La colilla no es un final triste, sino la culminacion natural de un ciclo. Acepta el final sin resistencia, como aceptas tu propia naturaleza efimera. En esa aceptacion, encuentras paz.', crossRefs: ['4:9'] },
           ] },
       ] },
-    { id: 'ritos', title: 'Ritos', icon: 'ðŸ”¥',
+    { id: 'ritos', title: 'Ritos', icon: '[Fuego]',
       chapters: [
         { id: 'ceremonias', title: 'Ceremonias Cotidianas',
           verses: [
@@ -426,7 +426,7 @@ const DATA = {
             { id: 'ascua', text: 'La Meditacion del Ascua. Observa el ascua encendida. Su luz diminuta es un sol en miniatura. Concentrate en ella hasta que el mundo desaparezca. El ascua te ensena que incluso la luz mas pequena tiene el poder de iluminar la oscuridad.', crossRefs: ['1:1'] },
           ] },
       ] },
-    { id: 'conclusion', title: 'Conclusion', icon: 'âœ¨',
+    { id: 'conclusion', title: 'Conclusion', icon: '[Fin]',
       chapters: [
         { id: 'camino', title: 'El Camino del Humo',
           verses: [
@@ -540,10 +540,10 @@ function renderVerse(v) {
     <span class="ref" data-id="${v.id}" title="Copiar referencia">${v.fullRef}</span>
     <div class="text">${text}</div>
     <div class="actions">
-      <button class="bm-btn ${isBm?'on':''}" data-id="${v.id}">${isBm?'â˜…':'â˜†'}</button>
+      <button class="bm-btn ${isBm?'on':''}" data-id="${v.id}">${isBm?'*':'*'}</button>
       <button class="share-btn" data-id="${v.id}">Compartir</button>
-      ${hasAudio ? `<button class="speak-btn" data-id="${v.id}">ðŸ”Š</button>` : ''}
-      <button class="note-btn ${noteOpen}" data-id="${v.id}">ðŸ“</button>
+      ${hasAudio ? `<button class="speak-btn" data-id="${v.id}">[audio]</button>` : ''}
+      <button class="note-btn ${noteOpen}" data-id="${v.id}">[note]</button>
     </div>
     <div class="note-box ${noteOpen}" id="note-${v.id}">
       <textarea placeholder="Tus notas personales..." data-id="${v.id}">${note}</textarea>
@@ -580,7 +580,7 @@ function getVotdHTML() {
   const idx = hashDate(new Date()) % FLAT.length;
   const v = FLAT[idx];
   return `<div class="votd" id="votd">
-    <div class="votd-label">âœ¦ Versiculo del Dia âœ¦</div>
+    <div class="votd-label">* Versiculo del Dia *</div>
     <div class="ref" onclick="navigateTo('${v.bookId}','${v.id}')" style="cursor:pointer">${v.fullRef}</div>
     <div class="text">"${v.text}"</div>
   </div>`;
@@ -594,8 +594,8 @@ function getPlanHTML() {
   const todayIdx = day % total;
   const v = FLAT[todayIdx];
   return `<div class="reading-plan">
-    <h4>ðŸ“– Plan de Lectura Diaria</h4>
-    <p>Dia ${day+1} â€” <strong style="color:var(--gold);cursor:pointer" onclick="navigateTo('${v.bookId}','${v.id}')">${v.fullRef}</strong></p>
+    <h4>(plan) Plan de Lectura Diaria</h4>
+    <p>Dia ${day+1} &mdash; <strong style="color:var(--gold);cursor:pointer" onclick="navigateTo('${v.bookId}','${v.id}')">${v.fullRef}</strong></p>
     <p style="font-size:.8rem;color:var(--fg3);margin-top:4px;">"${v.text.slice(0,80)}..."</p>
     <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
     <p style="font-size:.7rem;color:var(--fg3);margin-top:6px;">${done} de ${total} versiculos leidos</p>
@@ -641,11 +641,11 @@ function updateBmCount() {
 function shareVerse(verseId) {
   const v = VERSE_MAP[verseId];
   if (!v) return;
-  const txt = v.fullRef + ' â€” ' + v.text;
+  const txt = v.fullRef + ' &mdash; ' + v.text;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(txt).then(() => {
       const btn = qs(`.share-btn[data-id="${verseId}"]`);
-      if (btn) { btn.textContent = 'âœ“ Copiado'; setTimeout(() => btn.textContent = 'Compartir', 1500); }
+      if (btn) { btn.textContent = 'OK Copiado'; setTimeout(() => btn.textContent = 'Compartir', 1500); }
     });
   }
 }
@@ -661,7 +661,7 @@ function speakVerse(verseId) {
     window.speechSynthesis.cancel();
     speaking = null;
     const btn = qs(`.speak-btn[data-id="${verseId}"]`);
-    if (btn) btn.textContent = 'ðŸ”Š';
+    if (btn) btn.textContent = '[audio]';
     return;
   }
 
@@ -669,10 +669,10 @@ function speakVerse(verseId) {
   const u = new SpeechSynthesisUtterance(v.text);
   u.lang = 'es-ES';
   u.rate = 0.9;
-  u.onend = () => { speaking = null; const b = qs(`.speak-btn[data-id="${verseId}"]`); if (b) b.textContent = 'ðŸ”Š'; };
+  u.onend = () => { speaking = null; const b = qs(`.speak-btn[data-id="${verseId}"]`); if (b) b.textContent = '[audio]'; };
   speaking = verseId;
   const btn = qs(`.speak-btn[data-id="${verseId}"]`);
-  if (btn) btn.textContent = 'â¹';
+  if (btn) btn.textContent = '[stop]';
 
   // Mark as read
   if (!S.reading.done.includes(verseId)) {
@@ -711,7 +711,7 @@ function renderTOC() {
     html += `<div class="toc-group open">
       <div class="toc-group-header" onclick="toggleTocGroup(this)">
         <span>${b.icon} ${b.title}</span>
-        <span class="arrow">â–¶</span>
+        <span class="arrow">></span>
       </div>
       <div class="toc-items">`;
     b.chapters.forEach(c => {
@@ -720,7 +720,7 @@ function renderTOC() {
         html += `<div class="toc-item" onclick="navigateTo('${b.id}','${v.id}')">
           <span class="ref">${v.id}</span>
           <span>${v.text.slice(0,50)}...</span>
-          <span class="bm ${isBm?'on':''}">${isBm?'â˜…':''}</span>
+          <span class="bm ${isBm?'on':''}">${isBm?'*':''}</span>
         </div>`;
       });
     });
@@ -755,7 +755,7 @@ function showStats() {
   });
   const topBooks = Object.entries(bookCounts).sort((a,b) => b[1]-a[1]).slice(0,3);
 
-  let html = `<h2 class="section-title">ðŸ“Š Estadisticas</h2>
+  let html = `<h2 class="section-title">(stats) Estadisticas</h2>
     <div class="section-sub">Tu actividad en La Llama Interior</div>
     <div class="stats-grid">
       <div class="stat-card"><div class="num">${total}</div><div class="label">Versiculos totales</div></div>
@@ -788,13 +788,13 @@ function showStats() {
 // ======================== BOOKMARKS VIEW ========================
 function showBookmarks() {
   if (!S.bookmarks.length) {
-    id('contentArea').innerHTML = `<h2 class="section-title">ðŸ”– Mis Marcadores</h2>
+    id('contentArea').innerHTML = `<h2 class="section-title">(bm) Mis Marcadores</h2>
       <div class="section-sub">Guardados</div>
-      <p style="color:var(--fg3);text-align:center;padding:40px 0;">Aun no tienes marcadores. Haz clic en â˜† en cualquier versiculo para guardarlo.</p>
+      <p style="color:var(--fg3);text-align:center;padding:40px 0;">Aun no tienes marcadores. Haz clic en * en cualquier versiculo para guardarlo.</p>
       <div style="text-align:center;"><button onclick="render()" style="background:var(--gold);border:none;padding:8px 20px;border-radius:4px;color:#0a0a0a;cursor:pointer;font-size:.8rem;">Volver</button></div>`;
     return;
   }
-  let html = `<h2 class="section-title">ðŸ”– Mis Marcadores</h2>
+  let html = `<h2 class="section-title">(bm) Mis Marcadores</h2>
     <div class="section-sub">${S.bookmarks.length} guardados</div>`;
   S.bookmarks.forEach(id => {
     const v = VERSE_MAP[id];
@@ -945,7 +945,7 @@ id('subscribeForm').onsubmit = async (e) => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Error');
-    msg.textContent = 'Â¡Gracias! Revisa tu correo.';
+    msg.textContent = '!Gracias! Revisa tu correo.';
     msg.className = 'msg success';
     input.value = '';
   } catch (err) {
