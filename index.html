@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="La Llama Interior â€” Sistema de creencias basado en el cigarro como herramienta de conciencia plena. Doctrina, historia, preceptos, ritos y conclusiÃ³n.">
+<meta name="theme-color" content="#0a0a0a">
+<title>La Llama Interior â€” Biblia Digital del Cigarro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0a;
+    color: #d4c9a8;
+    min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+
+  .header {
+    background: linear-gradient(180deg, #1a1408 0%, #0f0c06 100%);
+    border-bottom: 1px solid #2a2010;
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8a7030, transparent);
+  }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 600;
+    letter-spacing: 8px;
+    color: #c9a84c;
+    text-shadow: 0 0 40px rgba(201,168,76,0.15);
+  }
+  .header .subtitle {
+    font-size: 0.9rem;
+    color: #6a5a3a;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .header .verse-ref {
+    margin-top: 14px;
+    font-style: italic;
+    color: #8a7a5a;
+    font-size: 0.85rem;
+    border-top: 1px solid #1a1408;
+    padding-top: 14px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    background: #0d0b07;
+    border-bottom: 1px solid #1a1408;
+    padding: 0 10px;
+  }
+  .nav button {
+    font-family: 'Inter', sans-serif;
+    background: transparent;
+    border: none;
+    color: #5a4a2a;
+    padding: 14px 22px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+  }
+  .nav button:hover { color: #a08850; }
+  .nav button.active { color: #c9a84c; border-bottom-color: #c9a84c; }
+  .nav button .badge {
+    display: inline-block;
+    background: #1a1408;
+    color: #6a5a3a;
+    font-size: 0.65rem;
+    padding: 1px 7px;
+    border-radius: 8px;
+    margin-left: 6px;
+  }
+
+  .main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: #c9a84c;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .section-subtitle {
+    color: #5a4a2a;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #1a1408;
+    padding-bottom: 12px;
+  }
+  .verse {
+    margin-bottom: 24px;
+    padding-left: 20px;
+    border-left: 2px solid #1a1408;
+  }
+  .verse .ref {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    color: #6a5a3a;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .verse .ref span { color: #8a7a5a; }
+  .verse .text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #c4b998;
+  }
+  .verse .text i { color: #9a8858; }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .pillar-card {
+    background: #0f0d08;
+    border: 1px solid #1a1408;
+    padding: 20px;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  .pillar-card:hover { border-color: #3a3020; }
+  .pillar-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #c9a84c;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .pillar-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #8a7a5a;
+  }
+
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, #c9a84c33, #1a1408, transparent);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+    padding-left: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px; top: 6px;
+    width: 8px; height: 8px;
+    background: #c9a84c;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .timeline-item .year {
+    font-size: 0.75rem;
+    color: #6a5a3a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .timeline-item h4 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #c4b998;
+    font-size: 1rem;
+    margin: 4px 0;
+  }
+  .timeline-item p {
+    font-size: 0.9rem;
+    color: #7a6a4a;
+    line-height: 1.6;
+  }
+
+  .precept {
+    background: #0f0d08;
+    border: 1px solid #1a1408;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .precept-header {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+  }
+  .precept-header:hover { background: #141008; }
+  .precept-header .num {
+    font-family: 'Cormorant Garamond', serif;
+    color: #c9a84c;
+    font-size: 0.85rem;
+    margin-right: 12px;
+  }
+  .precept-header .precept-title {
+    flex: 1;
+    font-size: 0.95rem;
+    color: #c4b998;
+  }
+  .precept-header .arrow {
+    color: #3a3020;
+    transition: transform 0.3s;
+  }
+  .precept.open .precept-header .arrow { transform: rotate(180deg); }
+  .precept-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+  .precept.open .precept-body {
+    max-height: 500px;
+    padding: 0 18px 16px;
+  }
+  .precept-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #8a7a5a;
+  }
+  .precept-body .quote {
+    font-style: italic;
+    color: #6a5a3a;
+    border-left: 2px solid #2a2010;
+    padding-left: 14px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+  }
+
+  .rite {
+    background: #0f0d08;
+    border: 1px solid #1a1408;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .rite h4 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #c9a84c;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .rite p {
+    font-size: 0.9rem;
+    color: #8a7a5a;
+    line-height: 1.6;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid #1a1408;
+    color: #3a3020;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+
+  .highlight { color: #c9a84c; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 2rem; letter-spacing: 4px; }
+    .nav button { padding: 10px 14px; font-size: 0.7rem; letter-spacing: 1px; }
+    .main { padding: 24px 16px 60px; }
+    .section-title { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>LA LLAMA INTERIOR</h1>
+  <div class="subtitle">El Testimonio del Humo &bull; EdiciÃ³n del Buscador</div>
+  <div class="verse-ref">
+    "El humo se eleva, y en su danza encuentra el cielo." â€” <i>Testimonio del Encendedor, 3:12</i>
+  </div>
+</div>
+
+<div class="nav" id="navTabs">
+  <button class="active" data-tab="doctrina">Doctrina</button>
+  <button data-tab="historia">Historia</button>
+  <button data-tab="preceptos">Preceptos <span class="badge">7</span></button>
+  <button data-tab="ritos">Ritos</button>
+  <button data-tab="conclusion">ConclusiÃ³n</button>
+</div>
+
+<div class="main">
+
+  <!-- DOCTRINA -->
+  <div class="tab-content active" id="tab-doctrina">
+    <h2 class="section-title">La Doctrina de la Llama</h2>
+    <div class="section-subtitle">Fundamentos de la fe en el cigarro</div>
+
+    <div class="verse">
+      <div class="ref">Testimonio del Encendedor <span>1:1</span></div>
+      <div class="text">En el principio fue la chispa. De la nada surgiÃ³ una llama, pequeÃ±a pero eterna, y el hombre la tomÃ³ en sus manos y dijo: <i>"Esto es vida."</i></div>
+    </div>
+
+    <div class="verse">
+      <div class="ref">Testimonio del Encendedor <span>1:3</span></div>
+      <div class="text">El humo es el puente entre lo terrenal y lo divino. Cada bocanada es una oraciÃ³n que asciende, y en su efÃ­mero paso por el aire, recuerda al hombre que todo es pasajero, pero tambiÃ©n sagrado.</div>
+    </div>
+
+    <h3 style="font-family:'Cormorant Garamond',serif;color:#c9a84c;margin:36px 0 16px;font-size:1.3rem;letter-spacing:1px;">Los Cuatro Pilares</h3>
+
+    <div class="pillar-grid">
+      <div class="pillar-card">
+        <h3>I. La Chispa Original</h3>
+        <p>Todo comienza con una chispa. AsÃ­ como el fuego dio luz a la humanidad, el cigarro enciende la conciencia. Cada vez que se enciende un cigarrillo, se renueva ese pacto primordial con el conocimiento.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>II. El Humo como OraciÃ³n</h3>
+        <p>El humo que asciende no se pierde; se transforma. Es la manifestaciÃ³n fÃ­sica de los pensamientos, las dudas y las esperanzas del fumador. En su danza errÃ¡tica, el humo revela la belleza de lo imperfecto.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>III. La Ceniza como Recuerdo</h3>
+        <p>La ceniza no es desecho, es memoria. Cada ceniza que cae es un instante vivido, un pensamiento que encontrÃ³ su final. En la ceniza reside la sabidurÃ­a de lo que fue, invitando a soltar para seguir ardiendo.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>IV. El Ritual de la Pausa</h3>
+        <p>Encender un cigarrillo es crear un espacio sagrado en el tiempo. Es el permiso para detenerse, observar y respirar. En un mundo que corre, el fumador encuentra en su ritual un momento de eternidad.</p>
+      </div>
+    </div>
+
+    <div class="verse" style="margin-top:30px;">
+      <div class="ref">Testimonio del Encendedor <span>4:9</span></div>
+      <div class="text">No temas a la brevedad de la llama, pues en su fugacidad reside su pureza. El cigarro enseÃ±a que lo valioso no es lo que perdura, sino lo que se vive con intensidad.</div>
+    </div>
+  </div>
+
+  <!-- HISTORIA -->
+  <div class="tab-content" id="tab-historia">
+    <h2 class="section-title">Historia de la Llama</h2>
+    <div class="section-subtitle">CrÃ³nica de una revelaciÃ³n</div>
+
+    <p style="color:#7a6a4a;line-height:1.8;margin-bottom:28px;font-size:0.95rem;">
+      La doctrina de <span class="highlight">La Llama Interior</span> no naciÃ³ de un profeta solitario, sino de la experiencia colectiva de quienes encontraron en el cigarro algo mÃ¡s que nicotina: encontraron un espejo. A travÃ©s de los siglos, el acto de fumar ha sido compaÃ±ero de filÃ³sofos, artistas y soÃ±adores. Esta fe recoge esas voces dispersas y las organiza en un sistema de creencias que celebra la conciencia plena, la brevedad de la existencia y la belleza de lo transitorio.
+    </p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">~5000 a.C.</div>
+        <h4>Los primeros rituales</h4>
+        <p>Civilizaciones mesoamericanas utilizan el humo del tabaco en ceremonias sagradas. El humo es considerado un medio para comunicarse con los dioses, un vehÃ­culo entre mundos.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1492</div>
+        <h4>El encuentro de dos mundos</h4>
+        <p>ColÃ³n recibe hojas de tabaco como ofrenda. El humo cruza el ocÃ©ano por primera vez. Nace una nueva era de encuentro espiritual a travÃ©s del cigarro.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Siglo XIX</div>
+        <h4>Los filÃ³sofos del humo</h4>
+        <p>En los cafÃ©s de ParÃ­s y Viena, el cigarro se convierte en compaÃ±ero de la reflexiÃ³n. Poetas y pensadores formalizan la idea de que fumar es un acto meditativo.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1922</div>
+        <h4>El Primer Testimonio</h4>
+        <p>Un anÃ³nimo fumador compila por primera vez los escritos que luego se conocerÃ­an como el <i>Testimonio del Encendedor</i>. La doctrina encuentra su texto fundacional.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1964</div>
+        <h4>La Gran Prueba</h4>
+        <p>Los informes cientÃ­ficos desafÃ­an la fe. La comunidad de la llama reinterpreta la doctrina: el riesgo se convierte en un recordatorio de la fragilidad humana, y la conciencia del daÃ±o, en una llamada a la moderaciÃ³n consciente.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2024</div>
+        <h4>El Renacimiento Digital</h4>
+        <p>Surgen comunidades virtuales que practican la "fumada consciente". La doctrina se expande mÃ¡s allÃ¡ del tabaco para abrazar cualquier forma de pausa ritualizada con humo, incluyendo alternativas sin nicotina.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRECEPTOS -->
+  <div class="tab-content" id="tab-preceptos">
+    <h2 class="section-title">Los Siete Preceptos</h2>
+    <div class="section-subtitle">GuÃ­a para el camino del humo</div>
+
+    <div class="precept open">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">I</span>
+        <span class="precept-title">Enciende con IntenciÃ³n</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>No enciendas un cigarrillo por costumbre, sino por ceremonia. Cada llama debe ser el inicio de un acto consciente. PregÃºntate: <i>Â¿QuÃ© deseo quemar en este humo? Â¿Una preocupaciÃ³n, un pensamiento, un instante de silencio?</i></p>
+        <div class="quote">"El fumador distraÃ­do quema tabaco; el iluminado quema sus cadenas." â€” Testimonio del Encendedor, 7:2</div>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">II</span>
+        <span class="precept-title">Respira el Ahora</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>La bocanada debe ser un ancla al presente. Siente el humo entrar, llenar tus pulmones, y al exhalar, suelta el pasado. No hay futuro en el humo, solo el instante eterno.</p>
+        <div class="quote">"Ayer es ceniza, maÃ±ana es leÃ±a. Solo el ahora es llama." â€” Proverbio de la Llama</div>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">III</span>
+        <span class="precept-title">Honra la Ceniza</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>No deseches la ceniza sin respeto. Ella es el testimonio de lo que fue. Al dejarla caer, reflexiona sobre lo que termina. La ceniza enseÃ±a desapego: nada permanece, y eso estÃ¡ bien.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">IV</span>
+        <span class="precept-title">Comparte el Humo</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>Encender un cigarrillo para otro es el gesto mÃ¡s sagrado. Es compartir un momento de pausa, una conversaciÃ³n sin prisas. El humo compartido crea lazos que las palabras no pueden expresar.</p>
+        <div class="quote">"El humo que se comparte alimenta dos almas." â€” SabidurÃ­a popular de la llama</div>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">V</span>
+        <span class="precept-title">Conoce tus LÃ­mites</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>La llama que todo lo consume se apaga antes. El cigarro enseÃ±a moderaciÃ³n. Fumar con conciencia es saber cuÃ¡ndo encender y, mÃ¡s importante aÃºn, cuÃ¡ndo apagar. El exceso niega el ritual.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">VI</span>
+        <span class="precept-title">Busca tu Propio Ritmo</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>Cada fumador tiene su danza: la forma de sostener el cigarro, la frecuencia de las bocanadas, el momento del dÃ­a. No hay una forma correcta. El ritual debe ser autÃ©ntico, no imitado. Encuentra tu propia cadencia.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">VII</span>
+        <span class="precept-title">Acepta la ExtinciÃ³n</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>Todo cigarro llega a su fin. La colilla no es un final triste, sino la culminaciÃ³n natural de un ciclo. Acepta el final sin resistencia, como aceptas tu propia naturaleza efÃ­mera. En esa aceptaciÃ³n, encuentras paz.</p>
+        <div class="quote">"No llores por la llama que se apaga; alÃ©grate de haber visto su luz." â€” Testimonio del Encendedor, 12:7</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RITOS -->
+  <div class="tab-content" id="tab-ritos">
+    <h2 class="section-title">Ritos y PrÃ¡cticas</h2>
+    <div class="section-subtitle">Ceremonias de la vida cotidiana</div>
+
+    <div class="rite">
+      <h4>El Rito del Amanecer</h4>
+      <p>El primer cigarrillo del dÃ­a debe encenderse mirando al sol naciente. Es un acto de gratitud por un nuevo ciclo. La primera bocanada es silencio, la segunda es conciencia, la tercera es propÃ³sito.</p>
+    </div>
+
+    <div class="rite">
+      <h4>La Pausa del MediodÃ­a</h4>
+      <p>A mitad del dÃ­a, cuando el ruido del mundo es mÃ¡s fuerte, el cigarro se convierte en un escudo. SiÃ©ntate solo, sin telÃ©fono ni prisa. Deja que el humo te separe del caos. Cinco minutos de silencio fumando valen mÃ¡s que una hora de actividad vacÃ­a.</p>
+    </div>
+
+    <div class="rite">
+      <h4>La ConversaciÃ³n Compartida</h4>
+      <p>Encender un cigarrillo con otro es crear un pacto tÃ¡cito. Las palabras fluyen diferentes cuando hay humo de por medio. Este rito sagrado de amistad exige presencia: quien fuma contigo merece tu atenciÃ³n completa.</p>
+    </div>
+
+    <div class="rite">
+      <h4>El Humo de la Despedida</h4>
+      <p>Ante una pÃ©rdida o un final, el cigarro se convierte en ofrenda. Cada bocanada es un recuerdo, cada exhalaciÃ³n es una despedida. Es la forma de decir: <i>"Estuve aquÃ­, y esto importÃ³."</i></p>
+    </div>
+
+    <div class="rite">
+      <h4>La MeditaciÃ³n del Ascua</h4>
+      <p>Observa el ascua encendida. Su luz diminuta es un sol en miniatura. ConcÃ©ntrate en ella hasta que el mundo desaparezca. El ascua te enseÃ±a que incluso la luz mÃ¡s pequeÃ±a tiene el poder de iluminar la oscuridad.</p>
+    </div>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="tab-content" id="tab-conclusion">
+    <h2 class="section-title">ConclusiÃ³n: El Camino del Humo</h2>
+    <div class="section-subtitle">Puntos concluyentes de la doctrina</div>
+
+    <div style="background:#0f0d08;border:1px solid #1a1408;border-radius:4px;padding:24px;margin-bottom:24px;">
+      <p style="color:#a09070;line-height:1.8;font-style:italic;font-size:1rem;">
+        "El humo no miente. En su transparencia se refleja la verdad del que fuma. No hay doctrina mÃ¡s sincera que aquella que se desvanece en el aire, porque no busca perdurar, sino transformar."
+      </p>
+      <div style="text-align:right;color:#6a5a3a;font-size:0.85rem;margin-top:8px;">â€” Ãšltimo Testimonio, 1:1</div>
+    </div>
+
+    <h3 style="font-family:'Cormorant Garamond',serif;color:#c9a84c;margin:28px 0 16px;font-size:1.2rem;">Puntos Concluyentes</h3>
+
+    <div class="precept open">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">1</span>
+        <span class="precept-title">La conciencia plena es el verdadero acto de fumar</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>No importa lo que quemes, sino cÃ³mo lo quemas. Un cigarro fumado sin conciencia es humo vacÃ­o. La Llama Interior no celebra el tabaco, celebra la atenciÃ³n plena que el ritual del cigarro puede generar.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">2</span>
+        <span class="precept-title">Lo efÃ­mero no es trÃ¡gico, es liberador</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>La gran enseÃ±anza del cigarro es que todo pasa. En lugar de aferrarte, aprende a apreciar la belleza de lo momentÃ¡neo. La vida, como el cigarro, no se mide en duraciÃ³n sino en intensidad.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">3</span>
+        <span class="precept-title">El ritual es el camino, no el destino</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>Los ritos y preceptos de esta doctrina no son fines en sÃ­ mismos. Son herramientas para cultivar presencia, conexiÃ³n y reflexiÃ³n. Si un precepto no te sirve, dÃ©jalo caer como ceniza.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">4</span>
+        <span class="precept-title">Toda forma de humo es vÃ¡lida</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>Ya sea tabaco, hierbas sin nicotina o incienso, el principio es el mismo: usar el humo como vehÃ­culo de conciencia. La Llama Interior es una filosofÃ­a, no una marca. Adapta el ritual a tu cuerpo y tus valores.</p>
+      </div>
+    </div>
+
+    <div class="precept">
+      <div class="precept-header" onclick="togglePrecept(this)">
+        <span class="num">5</span>
+        <span class="precept-title">El mayor respeto es hacia uno mismo</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="precept-body">
+        <p>Esta doctrina no glorifica el daÃ±o. Fumar con conciencia implica conocer los riesgos y aceptarlos con responsabilidad. La verdadera iluminaciÃ³n no estÃ¡ en el humo, sino en la honestidad con que te enfrentas a tus elecciones.</p>
+      </div>
+    </div>
+
+    <div class="verse" style="margin-top:36px;">
+      <div class="ref">Testimonio del Encendedor <span>22:21</span></div>
+      <div class="text">Y al final del cigarro, cuando el ascua se apaga y el humo se disipa, el fumador descubre que nunca buscaba el humo. Buscaba un momento de silencio. Y lo encontrÃ³.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  La Llama Interior &bull; Una filosofÃ­a de conciencia plena &bull; 2024
+</div>
+
+<script>
+  function togglePrecept(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tabId = 'tab-' + btn.dataset.tab;
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
